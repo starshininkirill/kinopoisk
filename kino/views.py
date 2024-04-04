@@ -13,7 +13,7 @@ from kino.services import open_file
 def main_page(request):
     films = Film.objects.all()
     context = {
-        'page_title': 'Главная',
+        # 'page_title': 'Главная',
         'films': films
     }
     return render(request, template_name='kino/films.html', context=context)
