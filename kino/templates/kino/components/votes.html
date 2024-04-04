@@ -1,0 +1,11 @@
+
+{% if user.is_authenticated %}
+  <div class="go__vote">
+    <h4>Оценить фильм</h4>
+    <div class="votes">
+      {% for i in nums %}
+        <div data-user="{{ user.id }}" data-film="{{ film.id }}" data-rating="{{ i }}" class="vote p1 {% if current_vote >= i %}active{% endif %}">{{ i }}</div>
+      {% endfor %}
+    </div>
+  </div>
+{% endif %}

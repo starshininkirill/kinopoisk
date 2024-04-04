@@ -1,0 +1,16 @@
+{% extends 'kino/index.html' %}
+{% load kino_tags %}
+
+{% block content %}
+  <div class="single-genre">
+    <h1 class="page-title">{{ genre.name }}</h1>
+
+    {% if films %}
+      <div class="films">
+        {% for film in films %}
+          {% film film=film.id %}
+        {% endfor %}
+      </div>
+    {% endif %}
+  </div>
+{% endblock %}

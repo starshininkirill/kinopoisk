@@ -1,0 +1,194 @@
+from django.db import models
+from users.models import User
+from django.core.validators import MaxValueValidator, MinValueValidator, FileExtensionValidator
+
+
+class Genre(models.Model):
+    name = models.CharField(max_length=120, null=True, blank=True)
+    image = models.ImageField(upload_to='genres_images', null=True, blank=True)
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        verbose_name = 'Жанр'
+        verbose_name_plural = 'Жанры'
+
+
+class Country(models.Model):
+    name = models.CharField(max_length=120, null=True, blank=True)
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        verbose_name = 'Страна'
+        verbose_name_plural = 'Страны'
+
+
+class Year(models.Model):
+    year = models.IntegerField(null=True, blank=True)
+
+    def __str__(self):
+        return str(self.year)
+
+    class Meta:
+        verbose_name = 'Год'
+        verbose_name_plural = 'Года'
+
+
+class Film(models.Model):
+    name = models.CharField(max_length=120, null=True, blank=True)
+    duration = models.CharField(max_length=20, null=True, blank=True)
+    image = models.ImageField(upload_to='films_images', null=True, blank=True)
+    country = models.ForeignKey(Country, on_delete=models.CASCADE, null=True, blank=True)
+    genres = models.ManyToManyField(Genre)
+    year = models.ForeignKey(Year, on_delete=models.CASCADE, null=True, blank=True)
+    trailer = models.FileField(upload_to='trailers', validators=[FileExtensionValidator(allowed_extensions=['mp4'])],
+                               null=True, blank=True)
+    description = models.TextField(null=True, blank=True)
+
+    def __str__(self):
+        return self.name
+
+    def count_film_votes(self):
+        ratings = self.ratings.all()
+        return len(ratings)
+
+    def get_average_rating(self):
+        ratings = self.ratings.all()
+        if len(ratings) != 0:
+            return round(sum(rating.rating for rating in ratings) / len(ratings), 1)
+        else:
+            return 0
+
+    def count_reviews(self):
+        reviews_len = len(Review.objects.filter(film=self.id))
+        return reviews_len
+
+    def count_positive_reviews(self):
+        reviews_len = len(Review.objects.filter(film=self.id).filter(type='like'))
+        return reviews_len
+
+    def count_percent_of_positive_reviews(self):
+        percent = self.count_positive_reviews() / self.count_reviews() * 100
+        return round(percent, 2)
+
+    def count_negative_reviews(self):
+        reviews_len = len(Review.objects.filter(film=self.id).filter(type='dislike'))
+        return reviews_len
+
+    def count_percent_of_negative_reviews(self):
+        percent = self.count_negative_reviews() / self.count_reviews() * 100
+        return round(percent, 2)
+
+    def count_neutral_reviews(self):
+        reviews_len = len(Review.objects.filter(film=self.id).filter(type='neutral'))
+        return reviews_len
+
+    def count_percent_of_neutral_reviews(self):
+        percent = self.count_neutral_reviews() / self.count_reviews() * 100
+        return round(percent, 2)
+
+    class Meta:
+        verbose_name = 'Фильм'
+        verbose_name_plural = 'Фильмы'
+
+
+class Rating(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    film = models.ForeignKey(Film, on_delete=models.CASCADE, related_name='ratings')
+    rating = models.IntegerField(validators=[MinValueValidator(0), MaxValueValidator(10)])
+
+    class Meta:
+        unique_together = ('film', 'user')
+
+        verbose_name = 'Рейтинг'
+        verbose_name_plural = 'Рейтинг'
+
+
+class Review(models.Model):
+    REVIEW_TYPES = (
+        ('like', 'Положительный'),
+        ('dislike', 'Отрицательный'),
+        ('neutral', 'Нейтральный')
+    )
+
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    film = models.ForeignKey(Film, on_delete=models.CASCADE)
+    text = models.TextField(null=True, blank=True)
+    type = models.CharField(null=True, blank=True, choices=REVIEW_TYPES, max_length=30, default='neutral')
+    create_time = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f'{self.user}, {self.film}'
+
+    class Meta:
+        unique_together = ('film', 'user')
+
+        verbose_name = 'Рецензия'
+        verbose_name_plural = 'Рецензии'
+
+    def count_user_reviews(self):
+        return len(self.user.review_set.all())
+
+    def get_positive_reviews(self):
+        ratings = self.reviewrating_set.filter(rating='like')
+        return len(ratings)
+
+    def get_negative_reviews(self):
+        ratings = self.reviewrating_set.filter(rating='dislike')
+        return len(ratings)
+
+
+class ReviewRating(models.Model):
+    REVIEW_RATING_TYPES = (
+        ('like', 'Положительный'),
+        ('dislike', 'Отрицательный'),
+    )
+
+    review = models.ForeignKey(Review, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    rating = models.CharField(max_length=30, default='like', choices=REVIEW_RATING_TYPES)
+
+    class Meta:
+        unique_together = ('review', 'user')
+
+        verbose_name = 'Оценка рецензии'
+        verbose_name_plural = 'Оценки рецензии'
+
+    def __str__(self):
+        return f'Оценка: {self.review} от {self.user}'
+
+
+class Role(models.Model):
+    name = models.CharField(max_length=100, null=True, blank=True)
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        verbose_name = 'Профессия'
+        verbose_name_plural = 'Профессии'
+
+
+class Person(models.Model):
+    name = models.CharField(max_length=100, null=True, blank=True)
+    image = models.ImageField(upload_to='persons_images', null=True, blank=True)
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        verbose_name = 'Популярный человек'
+        verbose_name_plural = 'Популярные люди'
+
+
+class PersonsRoles(models.Model):
+    person = models.ForeignKey(Person, on_delete=models.CASCADE)
+    film = models.ForeignKey(Film, on_delete=models.CASCADE)
+    role = models.ForeignKey(Role, on_delete=models.CASCADE)
+
+    class Meta:
+        verbose_name = 'Роль человека в фильме'
+        verbose_name_plural = 'Роли людей в фильмах'

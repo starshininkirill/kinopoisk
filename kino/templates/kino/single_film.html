@@ -1,0 +1,162 @@
+{% extends 'kino/index.html' %}
+{% load kino_tags %}
+
+{% block content %}
+  <div class="single-film">
+    <div class="film__left">
+      <div class="film__image">
+        <img src="{{ film.image.url }}" alt="" />
+      </div>
+      <div class="film__trailer">
+        <video
+          id="my-video"
+          class="video-js"
+          controls
+          preloader="auto"
+          width="100%"
+          height="200"
+          data-setup="{}"  
+        >
+          <source src="{% url 'kino:video' film.id %}" type="video/mp4">
+          <source src="{% url 'kino:video' film.id %}" type="video/webm">
+
+        </video>
+        <h4>
+          Трейлер
+        </h4>
+      </div>
+    </div>
+    <div class="film__center">
+      <h1 class="film__title">
+        {{ film.name }}{% if film.year %}
+          ({{ film.year }})
+        {% endif %}
+      </h1>
+      <h2 class="film__subtitle">О фильме</h2>
+      <div class="film__about">
+        <div class="film__year attr">
+          <div class="attr__name">Год производства</div>
+          <a href="{% url 'kino:year' film.year %}" class="attr__value">{{ film.year }}</a>
+        </div>
+        <div class="film__genres attr">
+          <div class="attr__name">Жанр</div>
+          <div class="attr__value">
+            {% for genre in film.genres.all %}
+              <a href="{% url 'kino:genre' genre.id %}">{{ genre.name }}</a>
+              {% if not forloop.last %}, {% endif %}
+            {% endfor %}
+          </div>
+        </div>
+        <div class="film__country attr">
+          <div class="attr__name">Страна</div>
+          <div class="attr__value">
+              <a href="{% url 'kino:country' film.country.id %}">{{ film.country.name }}</a> 
+          </div>
+        </div>
+        {% if persons %}
+          {% for role, persons in persons.items %}
+          <div class="attr">
+            <div class="attr__name">
+              {{ role }}
+            </div>
+            <div class="attr__value">
+              {% for person in persons %}
+                <a href="{% url 'kino:person' person.person.id %}">
+                  {{ person.person }}
+                </a>
+                {% if not forloop.last %}, {% endif %}
+              {% endfor %}
+            </div>
+          </div>
+          {% endfor %}
+        {% endif %}
+      </div>
+    </div>
+    <div class="film__right">
+      <div class="film__rating">
+        <div class="votes p3">Оценок: {{ film.count_film_votes }}</div>
+        <div class="average h4">Рейтинг: {{ film.get_average_rating }}/10</div>
+
+        <div class="go__vote">
+          {% votes user=user film=film %}
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="single-film-descr">
+    <div class="h2">
+      Описание
+    </div>
+    <p class="descr">
+      {% if film.description %}
+      {{ film.description }}
+      {% else %}
+        Описания нет
+      {% endif %}
+    </p>
+    <div class="go__vote">
+      {% votes user=user film=film %}
+    </div>
+  </div>
+  <div class="h2">
+    Рецензии зрителей
+  </div>
+    {% if reviews %}
+      <div class="reviews">
+        <div class="reviews__left">
+          {% for review in reviews %}
+          <div class="review {% if review.type == 'like' %}positive{% elif  review.type == 'dislike' %}negative{% endif %}">
+            <div class="review__top">
+              <img src="{% if review.user.avatar %}{{ review.user.avatar.url }}{% else %}https://www.pngall.com/wp-content/uploads/5/User-Profile-PNG-High-Quality-Image.png{% endif %}" alt="" class="avatar">
+              <div class="name">
+                <h4>{{ review.user.username }}</h4>
+                {{ review.count_user_reviews }} рецензий
+              </div>
+              <div class="create_time">
+                {{ review.create_time }}
+              </div>
+            </div>
+            <div class="review__content">
+              {{ review.text }}
+            </div>
+            <div class="review__bottom">
+              {% review_rating user=user review=review %}
+              <div class="review__rating vote_positive">
+                Полезно {{ review.get_positive_reviews }}
+              </div>
+              <div class="review__rating vote_negative">
+                Нет {{ review.get_negative_reviews }}
+              </div>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+        <div class="reviews__right">
+          <div class="all p3">
+            <span class="h4">
+              {{ film.count_reviews}}
+            </span>
+            Всего 
+          </div>
+          <div class="p3">
+            <span class="h4 positive">
+              {{ film.count_positive_reviews }} <span class="percent"> {{ film.count_percent_of_positive_reviews }} %  </span>
+            </span>
+            Хороших
+          </div>
+          <div class="p3">
+            <span class="h4 negative">
+              {{ film.count_negative_reviews }} <span class="percent"> {{ film.count_percent_of_negative_reviews }} %  </span>
+            </span>
+            Плохих
+          </div>
+          <div class="p3">
+            <span class="h4 neutral">
+              {{ film.count_neutral_reviews }} <span class="percent"> {{ film.count_percent_of_neutral_reviews }} %  </span>
+            </span>
+            Нейтральных
+          </div>
+        </div>
+      </div>
+    {% endif %}
+{% endblock %}

@@ -1,0 +1,16 @@
+{% extends 'kino/index.html' %}
+
+{% block content %}
+  {% if genres %}
+    <div class="genres">
+      {% for genre in genres %}
+        <a href="{% url 'kino:genre' genre.id %}" class="genre">
+          {% if genre.image %}
+            <img src="{{ genre.image.url }}" alt="" />
+          {% endif %}
+          <div class="h4">{{ genre.name }}</div>
+        </a>
+      {% endfor %}
+    </div>
+  {% endif %}
+{% endblock %}

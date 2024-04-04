@@ -1,0 +1,35 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>{{ page_title }}</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/reset.css' %}" />
+    <link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}" />
+    <link rel="stylesheet" type="text/css" href="{% static 'css/index-page.css' %}" />
+    <script src="https://vjs.zencdn.net/ie8/1.1.2/videojs-ie8.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script type="text/javascript" src={% static "js/main.js" %}></script>
+  </head>
+  <body>
+    <header class="header">
+      <div class="container">
+        <a href="{% url 'index' %}" class="logo">Кинопоиск</a>
+        <div class="user">
+          {% if user.is_authenticated %}
+            <div class="user_profile p1">
+              <a href="{% url 'users:profile' %}">{{ user.username }}</a>
+              <a href="{% url 'users:logout' %}" class="p1">Выйти</a>
+            </div>
+          {% else %}
+            <a href="{% url 'users:login' %}" class="user_auth p1">Войти</a>
+          {% endif %}
+        </div>
+      </div>
+    </header>
+    {% block main %}
+
+    {% endblock %}
+  </body>
+</html>

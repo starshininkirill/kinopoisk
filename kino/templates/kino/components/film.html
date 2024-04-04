@@ -1,0 +1,30 @@
+<a href="{% url 'kino:film' film.id %}" class="film">
+    <img src="{{ film.image.url }}" class="image" alt="">
+    <div class="film__info">
+      <h4 class="name">
+        {{ film.name }}
+      </h4>
+      <div class="times p3">
+        {{ film.year }}, {{ film.duration }} мин.
+      </div>
+      <div class="genre p3">
+        {% for genre in film.genres.all %}
+          {{ genre.name }} 
+          {% if not forloop.last %}, {% endif %}
+        {% endfor %}
+      </div>
+      <div class="country p3">
+        Страна: {{ film.country }}
+      </div>
+    </div>
+    <div class="film__rating">
+      <div class="votes p3">
+        Оценок: {{ film.count_film_votes }}
+      </div>
+      <div class="average h4">
+        Рейтинг: {{ film.get_average_rating }}/10
+      </div>
+    </div>
+
+    
+  </a>
