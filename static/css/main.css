@@ -576,6 +576,9 @@ a {
   cursor: pointer;
   transition: all 0.3s ease-in;
 }
+.reviews__left .review__bottom .review__rating.active {
+  background-color: rgba(0, 0, 0, 0.2);
+}
 .reviews__left .review__bottom .review__rating:hover {
   background-color: rgba(0, 0, 0, 0.1);
 }

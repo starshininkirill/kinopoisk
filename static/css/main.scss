@@ -615,6 +615,9 @@ a {
                border-radius: 40px;
                cursor: pointer;
                transition: all 0.3s ease-in;
+               &.active{
+                  background-color: rgba(0,0,0,.2);
+               }
                &:hover{
                   background-color: rgba(0,0,0,.1);
                }
