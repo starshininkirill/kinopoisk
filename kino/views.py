@@ -4,7 +4,7 @@ from django.shortcuts import get_object_or_404
 from django.views.decorators.csrf import csrf_exempt
 from pprint import  pprint
 
-from kino.models import Genre, Film, Year, Rating, User, Role, Person, Review
+from kino.models import Genre, Film, Year, Rating, User, Role, Person, Review, ReviewRating
 from django.core.exceptions import ObjectDoesNotExist
 
 from kino.services import open_file
@@ -34,6 +34,7 @@ def single_film(request, id):
         'film': film,
         'persons': persons,
         'reviews': reviews,
+        'user': request.user
     }
     return render(request, template_name='kino/single_film.html', context=context)
 
@@ -101,5 +102,38 @@ def vote(response):
         'message': 'success'
     }
     return JsonResponse(data)
+
+
+@csrf_exempt
+def set_review_rating(response):
+    film_id = int(response.POST['film'])
+    user_id = int(response.POST['user'])
+    review_id = int(response.POST['review'])
+    rating_type = response.POST['type']
+    try:
+        rating = ReviewRating.objects.get(user_id=user_id, review_id=review_id)
+        if rating.rating == rating_type:
+            return JsonResponse({
+                'status': 'Нет обновлений',
+                'no_changed': True,
+                'created': False,
+            })
+
+        rating.rating = rating_type
+        rating.save()
+
+        return JsonResponse({
+            'status': 'Успешно обновлено',
+            'no_changed': False,
+            'created': False,
+        })
+    except ObjectDoesNotExist:
+        rating = ReviewRating.objects.create(review_id=review_id, user_id=user_id, rating=rating_type)
+        return JsonResponse({
+                'status': 'Успешно создано',
+                'no_changed': False,
+                'created': True,
+            })
+
 
 

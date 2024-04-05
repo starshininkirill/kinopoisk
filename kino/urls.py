@@ -13,4 +13,5 @@ urlpatterns = [
     path('country/<int:id>', views.single_country, name='country'),
     path('person/<int:id>', views.single_person, name='person'),
     path('vote/', views.vote, name='vote'),
+    path('set-review-rating/', views.set_review_rating, name='set_review_rating')
 ]

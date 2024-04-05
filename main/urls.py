@@ -25,7 +25,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', main_page, name='index'),
     path('forum/', include('forum.urls', namespace='forum')),
-    path('kino/', include('kino.urls', namespace='kino')),
+    path('', include('kino.urls', namespace='kino')),
     path('users/', include('users.urls', namespace='users')),
 ]
 

@@ -7,6 +7,7 @@ register = template.Library()
 
 @register.inclusion_tag('kino/components/review_rating.html')
 def review_rating(user=None, review=None):
+    print(user)
     data = {
         'review': review,
         'user': user,
@@ -16,7 +17,6 @@ def review_rating(user=None, review=None):
     if user and review:
         try:
             rating_review = review.reviewrating_set.filter(user=user)[0]
-            print(rating_review.rating)
             if rating_review.rating == 'like':
                 data['is_positive'] = True
             elif rating_review.rating == 'dislike':
