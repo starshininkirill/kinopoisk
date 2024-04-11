@@ -77,6 +77,7 @@ def year(request, year):
     }
     return render(request, 'kino/year.html', context=context)
 
+
 def single_person(request, id):
     person = Person.objects.get(id=id)
     return render(request, f'{person.name}')

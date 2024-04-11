@@ -7,7 +7,6 @@ register = template.Library()
 
 @register.inclusion_tag('kino/components/review_rating.html')
 def review_rating(user=None, review=None):
-    print(user)
     data = {
         'review': review,
         'user': user,
