@@ -5,6 +5,30 @@ from kino.models import Rating, Film
 register = template.Library()
 
 
+@register.inclusion_tag('kino/components/count_percent_of_review.html')
+def count_percent_of_review(film=None, type=None):
+    if film and type:
+        try:
+            film = Film.objects.get(pk=film.id)
+            print(film.count_percent_of_reviews(type))
+            return {'percent': film.count_percent_of_reviews(type)}
+        except:
+            return {'percent': 0}
+    return {'percent': 0}
+
+
+@register.inclusion_tag('kino/components/count_review.html')
+def count_review(film=None, type='all'):
+    if film:
+        try:
+            film = Film.objects.get(pk=film.id)
+            count = film.count_reviews(type)
+            return {'count': count}
+        except:
+            return {'count': 0}
+    return {'count': 0}
+
+
 @register.inclusion_tag('kino/components/review_rating.html')
 def review_rating(user=None, review=None):
     data = {

@@ -2,12 +2,12 @@ from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse, StreamingHttpResponse
 from django.shortcuts import get_object_or_404
 from django.views.decorators.csrf import csrf_exempt
-from pprint import  pprint
-
-from kino.models import Genre, Film, Year, Rating, User, Role, Person, Review, ReviewRating
+from pprint import pprint
 from django.core.exceptions import ObjectDoesNotExist
 
+from kino.models import Genre, Film, Year, Rating, User, Role, Person, Review, ReviewRating
 from kino.services import open_file
+from kino.forms import ReviewForm
 
 
 def main_page(request):
@@ -22,6 +22,7 @@ def main_page(request):
 def single_film(request, id):
     film = get_object_or_404(Film, id=id)
     reviews = film.review_set.all()
+    form = ReviewForm()
     persons_objects = film.personsroles_set.all()
     persons = {}
     for person in persons_objects:
@@ -34,7 +35,8 @@ def single_film(request, id):
         'film': film,
         'persons': persons,
         'reviews': reviews,
-        'user': request.user
+        'user': request.user,
+        'form': form
     }
     return render(request, template_name='kino/single_film.html', context=context)
 

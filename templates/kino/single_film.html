@@ -126,29 +126,30 @@
         <div class="reviews__right">
           <div class="all p3">
             <span class="h4">
-              {{ film.count_reviews }}
-            </span>ма
+              {% count_review film=film %}
+            </span>
             Всего 
           </div>
           <div class="p3">
             <span class="h4 positive">
-              {{ film.count_positive_reviews }} <span class="percent"> {{ film.count_percent_of_positive_reviews }} %  </span>
+              {% count_review film=film type='like' %} <span class="percent"> {% count_percent_of_review film=film type='like' %} %  </span>
             </span>
             Хороших
           </div>
           <div class="p3">
             <span class="h4 negative">
-              {{ film.count_negative_reviews }} <span class="percent"> {{ film.count_percent_of_negative_reviews }} %  </span>
+              {% count_review film=film type='dislike' %} <span class="percent"> {% count_percent_of_review film=film type='dislike' %} %  </span>
             </span>
             Плохих
           </div>
           <div class="p3">
             <span class="h4 neutral">
-              {{ film.count_neutral_reviews }} <span class="percent"> {{ film.count_percent_of_neutral_reviews }} %  </span>
+              {% count_review film=film type='neutral' %} <span class="percent"> {% count_percent_of_review film=film type='neutral' %} %  </span>
             </span>
             Нейтральных
           </div>
         </div>
       </div>
     {% endif %}
+    {{ form.as_p }}
 {% endblock %}

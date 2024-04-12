@@ -62,32 +62,15 @@ class Film(models.Model):
         else:
             return 0
 
-    def count_reviews(self):
-        reviews_len = len(Review.objects.filter(film=self.id))
+    def count_reviews(self, type='all'):
+        if type == 'all':
+            reviews_len = len(Review.objects.filter(film=self.id))
+        else:
+            reviews_len = len(Review.objects.filter(film=self.id, type=type))
         return reviews_len
 
-    def count_positive_reviews(self):
-        reviews_len = len(Review.objects.filter(film=self.id).filter(type='like'))
-        return reviews_len
-
-    def count_percent_of_positive_reviews(self):
-        percent = self.count_positive_reviews() / self.count_reviews() * 100
-        return round(percent, 2)
-
-    def count_negative_reviews(self):
-        reviews_len = len(Review.objects.filter(film=self.id).filter(type='dislike'))
-        return reviews_len
-
-    def count_percent_of_negative_reviews(self):
-        percent = self.count_negative_reviews() / self.count_reviews() * 100
-        return round(percent, 2)
-
-    def count_neutral_reviews(self):
-        reviews_len = len(Review.objects.filter(film=self.id).filter(type='neutral'))
-        return reviews_len
-
-    def count_percent_of_neutral_reviews(self):
-        percent = self.count_neutral_reviews() / self.count_reviews() * 100
+    def count_percent_of_reviews(self, type=None):
+        percent = self.count_reviews(type) / self.count_reviews() * 100
         return round(percent, 2)
 
     class Meta:
