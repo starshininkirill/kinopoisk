@@ -92,9 +92,9 @@ class Rating(models.Model):
 
 class Review(models.Model):
     REVIEW_TYPES = (
+        ('neutral', 'Нейтральный'),
         ('like', 'Положительный'),
         ('dislike', 'Отрицательный'),
-        ('neutral', 'Нейтральный')
     )
 
     user = models.ForeignKey(User, on_delete=models.CASCADE)
