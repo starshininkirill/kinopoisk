@@ -1,6 +1,6 @@
 from django.db import models
 from users.models import User
-from django.core.validators import MaxValueValidator, MinValueValidator, FileExtensionValidator
+from django.core.validators import MaxValueValidator, MinValueValidator, FileExtensionValidator, MinLengthValidator
 
 
 class Genre(models.Model):
@@ -99,8 +99,12 @@ class Review(models.Model):
 
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     film = models.ForeignKey(Film, on_delete=models.CASCADE)
-    text = models.TextField(null=True, blank=True)
-    type = models.CharField(null=True, blank=True, choices=REVIEW_TYPES, max_length=30, default='neutral')
+    text = models.TextField(
+        validators=[
+            MinLengthValidator(50, )
+        ]
+    )
+    type = models.CharField(choices=REVIEW_TYPES, max_length=30)
     create_time = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):

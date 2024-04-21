@@ -98,19 +98,40 @@
       {% votes user=user film=film %}
     </div>
   </div>
-  <div class="h2">
-    Рецензии зрителей
-  </div>
-    {% if reviews %}
+    {% if reviews or self_review %}
       <div class="reviews">
         <div class="reviews__left">
+          {% if self_review %}
+          <h2>Ваша Рецензия</h2>
+            <div class="review {% if self_review.type == 'like' %}positive{% elif  self_review.type == 'dislike' %}negative{% endif %}">
+              <div class="review__top">
+                <img src="{% if self_review.user.avatar %}{{ self_review.user.avatar.url }}{% else %}https://www.pngall.com/wp-content/uploads/5/User-Profile-PNG-High-Quality-Image.png{% endif %}" alt="" class="avatar">
+                <div class="name">
+                  <h4>{{ self_review.user.username }}</h4>
+                  рецензий: {{ self_review.count_user_reviews }} 
+                </div>
+                <div class="create_time">
+                  {{ self_review.create_time }}
+                </div>
+              </div>
+              <div class="review__content">
+                {{ self_review.text }}
+              </div>
+              {% review_rating user=user review=self_review %}
+          </div>
+          {% endif %}
+          {% if reviews %}
+            <div class="h2">
+              Рецензии зрителей
+            </div>
+          {% endif %}
           {% for review in reviews %}
           <div class="review {% if review.type == 'like' %}positive{% elif  review.type == 'dislike' %}negative{% endif %}">
             <div class="review__top">
               <img src="{% if review.user.avatar %}{{ review.user.avatar.url }}{% else %}https://www.pngall.com/wp-content/uploads/5/User-Profile-PNG-High-Quality-Image.png{% endif %}" alt="" class="avatar">
               <div class="name">
                 <h4>{{ review.user.username }}</h4>
-                {{ review.count_user_reviews }} рецензий
+                рецензий: {{ review.count_user_reviews }} 
               </div>
               <div class="create_time">
                 {{ review.create_time }}
@@ -151,5 +172,37 @@
         </div>
       </div>
     {% endif %}
-    {{ form.as_p }}
+
+  {% if user.is_authenticated and not self_review %}
+  <div class="add-review">
+    <form action="{% url 'kino:film' film.id %}" method="POST">
+      {% csrf_token %}
+      <h2 class="title">
+        Написать рецензию
+      </h2>
+      <div class="error">
+        {{ form.type.errors }}
+      </div>
+      <div class="error">
+        {{ form.text.errors }}
+      </div>
+      <div class="form-inputs">
+        {{ form.text }}
+        <label class="p1" for="{{ form.type.id_for_label }}">
+          Тип отзыва
+        </label>
+        {{ form.type }}
+      </div>
+      <button class="btn-y" type="submit">
+          Оставить рецензию
+      </button>
+    </form>
+  </div>
+  {% endif %}
+
+  {% if not user.is_authenticated and not self_review %}
+  <h2>
+    Оставлять отзывы могут только авторизованные пользователи
+  </h2>
+  {% endif %}
 {% endblock %}

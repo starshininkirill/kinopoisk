@@ -32,12 +32,12 @@ def registration(request):
         form = UserRegistrationForm(request.POST)
         if form.is_valid():
             form.save()
-            print('valid')
-
             username = form.cleaned_data.get('username')
-            password = form.cleaned_data.get('password')
+            password = form.cleaned_data.get('password1')
 
+            print(username, password)
             user = authenticate(username=username, password=password)
+            print(user)
             login(request, user)
             return HttpResponseRedirect(reverse('index'))
     else:

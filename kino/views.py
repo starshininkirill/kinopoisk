@@ -6,7 +6,7 @@ from pprint import pprint
 from django.core.exceptions import ObjectDoesNotExist
 
 from kino.models import Genre, Film, Year, Rating, User, Role, Person, Review, ReviewRating
-from kino.services import open_file
+from kino.services import open_file, get_persons_form_film, get_film_review_or_none
 from kino.forms import ReviewForm
 
 
@@ -21,23 +21,36 @@ def main_page(request):
 
 def single_film(request, id):
     film = get_object_or_404(Film, id=id)
-    reviews = film.review_set.all()
-    form = ReviewForm()
-    persons_objects = film.personsroles_set.all()
-    persons = {}
-    for person in persons_objects:
-        if person.role.name not in persons.keys():
-            persons[person.role.name] = [person]
-        else:
-            persons[person.role.name].append(person)
+    page_form = ReviewForm()
 
+    if request.method == "POST":
+        form = ReviewForm(data=request.POST)
+        if form.is_valid():
+            try:
+                self_review = Review.objects.get(film_id=id, user_id=request.user.id)
+            except ObjectDoesNotExist:
+                self_review = Review.objects.create(
+                    user=request.user,
+                    film_id=id,
+                    text=form.cleaned_data['text'],
+                    type=form.cleaned_data['type']
+                )
+                self_review.save()
+        else:
+            page_form = form
+
+    self_review = get_film_review_or_none(id, request.user.id)
+    persons = get_persons_form_film(film.personsroles_set.all())
+    reviews = film.review_set.all().exclude(id=self_review.id) if self_review else film.review_set.all()
     context = {
         'film': film,
         'persons': persons,
         'reviews': reviews,
         'user': request.user,
-        'form': form
+        'form': page_form,
+        'self_review': self_review
     }
+
     return render(request, template_name='kino/single_film.html', context=context)
 
 
@@ -60,6 +73,7 @@ def genres(request):
     }
     return render(request, 'kino/genres.html', context=context)
 
+
 def single_genre(request, id):
     genre =  get_object_or_404(Genre, id=id)
     films = genre.film_set.all()
@@ -69,6 +83,7 @@ def single_genre(request, id):
         'films': films,
     }
     return render(request, 'kino/single-genre.html', context=context)
+
 
 def year(request, year):
     year = Year.objects.get(year=year)

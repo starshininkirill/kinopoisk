@@ -10,7 +10,6 @@ def count_percent_of_review(film=None, type=None):
     if film and type:
         try:
             film = Film.objects.get(pk=film.id)
-            print(film.count_percent_of_reviews(type))
             return {'percent': film.count_percent_of_reviews(type)}
         except:
             return {'percent': 0}

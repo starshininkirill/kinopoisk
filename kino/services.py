@@ -1,5 +1,5 @@
 from django.shortcuts import get_object_or_404
-from kino.models import Film
+from kino.models import Film, Review
 from pathlib import Path
 
 
@@ -44,4 +44,23 @@ def open_file(request, id):
         content_range = f'bytes {range_start}-{range_end}/{file_size}'
 
     return file, status_code, content_length, content_range
+
+
+def get_film_review_or_none(film_id, user_id):
+    try:
+        self_review = Review.objects.get(film_id=film_id, user_id=user_id)
+    except:
+        self_review = None
+    return self_review
+
+
+def get_persons_form_film(persons_objects):
+    persons = {}
+    for person in persons_objects:
+        if person.role.name not in persons.keys():
+            persons[person.role.name] = [person]
+        else:
+            persons[person.role.name].append(person)
+    return persons
+
 

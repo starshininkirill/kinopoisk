@@ -1,5 +1,6 @@
 jQuery(document).ready(function ($) {
 
+    // Оценить фильм
     $('.go__vote .vote').on('click', function (e) {
         let user = $(this).data('user')
         let film = $(this).data('film')
@@ -22,12 +23,18 @@ jQuery(document).ready(function ($) {
         });
     })
 
-    $('.review__bottom:not(.anonim) .review__rating').on('click', function () {
+
+    // Оценить отзыв
+    $('.review__bottom .review__rating').on('click', function () {
         let type = $(this).data('type')
         let film = $(this).closest('.review__bottom').data('film');
         let user = $(this).closest('.review__bottom').data('user');
         let review = $(this).closest('.review__bottom').data('review');
         th = $(this)
+        if (user == 'None') {
+            alert('Авторизуйтесь чтобы оценить отзыв')
+            return
+        }
         $.ajax({
             url: '/set-review-rating/',
             type: 'POST',
@@ -39,7 +46,6 @@ jQuery(document).ready(function ($) {
                 'type': type
             },
             success: function (response) {
-                console.log(response.status);
                 let newVal = NaN
                 if (response.no_changed) {
                     return
