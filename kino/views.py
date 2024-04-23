@@ -1,3 +1,4 @@
+from django.db.models import Q
 from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse, StreamingHttpResponse
 from django.shortcuts import get_object_or_404
@@ -12,13 +13,25 @@ from kino.forms import ReviewForm, FilterForm
 
 def main_page(request):
     films = Film.objects.all()
-    form = FilterForm()
+
+    print(films)
+    
+    if request.GET.get('genres'):
+        films = films.filter(genres=request.GET.get('genres'))
+    
+    if request.GET.get('year'):
+        films = films.filter(year=request.GET.get('year'))
+    
+    if request.GET.get('country'):
+        films = films.filter(country=request.GET.get('country'))
+    
+    form = FilterForm(request.GET)
     context = {
         'page_title': 'Главная',
         'films': films,
         'form': form
     }
-    return render(request, template_name='kino/films.html', context=context)
+    return render(request, template_name='kino/pages/films.html', context=context)
 
 
 def single_film(request, id):
@@ -53,7 +66,7 @@ def single_film(request, id):
         'self_review': self_review
     }
 
-    return render(request, template_name='kino/single_film.html', context=context)
+    return render(request, template_name='kino/pages/single_film.html', context=context)
 
 
 def video(request, pk):
@@ -73,7 +86,7 @@ def genres(request):
         'page__title': 'Жанры',
         'genres' : genres
     }
-    return render(request, 'kino/genres.html', context=context)
+    return render(request, 'kino/pages/genres.html', context=context)
 
 
 def single_genre(request, id):
@@ -84,7 +97,7 @@ def single_genre(request, id):
         'genre': genre,
         'films': films,
     }
-    return render(request, 'kino/single-genre.html', context=context)
+    return render(request, 'kino/pages/single-genre.html', context=context)
 
 
 def year(request, year):
@@ -94,7 +107,7 @@ def year(request, year):
         'page__title': 'Год',
         'year': year
     }
-    return render(request, 'kino/year.html', context=context)
+    return render(request, 'kino/pages/single-year.html', context=context)
 
 
 def single_person(request, id):

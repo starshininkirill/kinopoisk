@@ -487,8 +487,8 @@ body {
    }
 }
 
-#main-page{
-   .content{
+#main-page {
+   .films-wrapper {
       display: flex;
       gap: 30px;
 
@@ -814,6 +814,38 @@ body {
             padding: 10px;
             font-size: 20px;
          }
+      }
+   }
+}
+
+.filter-form {
+   display: flex;
+   flex-direction: column;
+   gap: 10px;
+   width: 200px;
+
+   .reset {
+      text-align: center;
+      align-self: center;
+      color: var(--head);
+      font-size: 16px;
+      font-weight: 500;
+   }
+
+   .group {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+
+      label {
+         font-size: 18px;
+         font-weight: 600;
+      }
+
+      select {
+         padding: 5px;
+         border-radius: 3px;
+         font-size: 18px;
       }
    }
 }

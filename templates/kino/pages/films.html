@@ -1,0 +1,12 @@
+{% extends 'kino/index.html' %}
+
+{% block content %}
+  <div class="films-wrapper">
+    {% block sidebar %}
+      {% include 'kino/sidebar.html' %}
+    {% endblock %}
+    {% block films %}
+      {% include 'kino/components/films.html' %}
+    {% endblock %}
+  </div>
+{% endblock %}

@@ -1,5 +1,5 @@
 from django import forms
-from kino.models import Review, Film
+from kino.models import Review, Film, Genre
 
 
 class FilterForm(forms.ModelForm):
@@ -7,19 +7,20 @@ class FilterForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['country'].empty_label = 'Все страны'
+        self.fields['country'].label = 'Страны'
         self.fields['year'].empty_label = 'Все Годы'
+        self.fields['year'].label = 'Годы'
+        self.fields['genres'].label = 'Жанры'
         self.fields['genres'].empty_label = 'Все жанры'
         self.fields['country'].required = False
         self.fields['year'].required = False
         self.fields['genres'].required = False
 
-
-
     class Meta:
         model = Film
         fields = ['country', 'genres', 'year']
         widgets = {
-            'genres': forms.Select(choices=Film.genres)
+            'genres': forms.Select(choices=Genre.objects.all())
         }
 
 
