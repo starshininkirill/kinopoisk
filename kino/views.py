@@ -7,14 +7,16 @@ from django.core.exceptions import ObjectDoesNotExist
 
 from kino.models import Genre, Film, Year, Rating, User, Role, Person, Review, ReviewRating
 from kino.services import open_file, get_persons_form_film, get_film_review_or_none
-from kino.forms import ReviewForm
+from kino.forms import ReviewForm, FilterForm
 
 
 def main_page(request):
     films = Film.objects.all()
+    form = FilterForm()
     context = {
         'page_title': 'Главная',
-        'films': films
+        'films': films,
+        'form': form
     }
     return render(request, template_name='kino/films.html', context=context)
 

@@ -1,5 +1,9 @@
 {% extends 'kino/index.html' %}
 
+{% block sidebar %}
+    {% include 'kino/sidebar.html' %}
+{% endblock %}
+
 {% block content %}
   {% if films %}
     <div class="films">

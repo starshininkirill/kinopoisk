@@ -1,1 +1,8 @@
-<h1>sideber</h1>
+{% load kino_tags %}
+
+<form action="{% url 'index' %}" method="get">
+    {{ form.as_p }}
+    <button type="submit">
+        Отфильтровать
+    </button>
+</form>

@@ -487,10 +487,19 @@ body {
    }
 }
 
+#main-page{
+   .content{
+      display: flex;
+      gap: 30px;
+
+   }
+}
+
 .films {
    display: flex;
    flex-direction: column;
    gap: 10px;
+   width: 100%;
 
    .film {
       background-color: var(--bg-light);
@@ -669,75 +678,75 @@ body {
    }
 }
 
-      .review {
-         width: 100%;
-         height: fit-content;
-         padding: 20px;
-         background-color: #f2f2f2;
+.review {
+   width: 100%;
+   height: fit-content;
+   padding: 20px;
+   background-color: #f2f2f2;
 
-         &.positive {
-            background-color: var(--green);
+   &.positive {
+      background-color: var(--green);
+   }
+
+   &.negative {
+      background-color: var(--negative);
+   }
+
+   &__top {
+      display: flex;
+      gap: 20px;
+      border-bottom: 1px solid #1f1f1f12;
+      padding-bottom: 15px;
+      margin-bottom: 25px;
+
+      .avatar {
+         width: 50px;
+         height: 50px;
+         flex-shrink: 0;
+         border-radius: 50%;
+      }
+
+      .name {
+         display: flex;
+         flex-direction: column;
+         gap: 3px;
+      }
+
+      .create_time {
+         margin-left: auto;
+      }
+   }
+
+   &__bottom {
+      margin-top: 20px;
+      display: flex;
+      gap: 10px;
+
+      .review__rating {
+         background-color: rgba(0, 0, 0, .05);
+         padding: 10px 20px;
+         border-radius: 40px;
+         cursor: pointer;
+         transition: all 0.3s ease-in;
+         display: flex;
+         gap: 5px;
+         align-items: center;
+
+         svg {
+            width: 20px;
+            height: 20px;
          }
 
-         &.negative {
-            background-color: var(--negative);
+         &.active {
+            background-color: rgba(0, 0, 0, .2);
          }
 
-         &__top {
-            display: flex;
-            gap: 20px;
-            border-bottom: 1px solid #1f1f1f12;
-            padding-bottom: 15px;
-            margin-bottom: 25px;
-
-            .avatar {
-               width: 50px;
-               height: 50px;
-               flex-shrink: 0;
-               border-radius: 50%;
-            }
-
-            .name {
-               display: flex;
-               flex-direction: column;
-               gap: 3px;
-            }
-
-            .create_time {
-               margin-left: auto;
-            }
-         }
-
-         &__bottom {
-            margin-top: 20px;
-            display: flex;
-            gap: 10px;
-
-            .review__rating {
-               background-color: rgba(0, 0, 0, .05);
-               padding: 10px 20px;
-               border-radius: 40px;
-               cursor: pointer;
-               transition: all 0.3s ease-in;
-               display: flex;
-               gap: 5px;
-               align-items: center;
-
-               svg {
-                  width: 20px;
-                  height: 20px;
-               }
-
-               &.active {
-                  background-color: rgba(0, 0, 0, .2);
-               }
-
-               &:hover {
-                  background-color: rgba(0, 0, 0, .1);
-               }
-            }
+         &:hover {
+            background-color: rgba(0, 0, 0, .1);
          }
       }
+   }
+}
 
 .go__vote {
    display: flex;
