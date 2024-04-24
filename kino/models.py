@@ -162,6 +162,7 @@ class Role(models.Model):
 class Person(models.Model):
     name = models.CharField(max_length=100, null=True, blank=True)
     image = models.ImageField(upload_to='persons_images', null=True, blank=True)
+    birthday = models.DateField(null=True, blank=True)
 
     def __str__(self):
         return self.name
@@ -169,6 +170,10 @@ class Person(models.Model):
     class Meta:
         verbose_name = 'Популярный человек'
         verbose_name_plural = 'Популярные люди'
+
+    def get_roles(self):
+        roles = self.personsroles_set.values_list('role__name', flat=True).distinct()
+        return list(roles)
 
 
 class PersonsRoles(models.Model):

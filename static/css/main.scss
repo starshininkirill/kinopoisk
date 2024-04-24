@@ -556,7 +556,7 @@ body {
       .film__image {
          width: 100%;
          height: auto;
-         border-radius: 20px;
+         border-radius: 3px;
          overflow: hidden;
       }
 
@@ -846,6 +846,41 @@ body {
          padding: 5px;
          border-radius: 3px;
          font-size: 18px;
+      }
+   }
+}
+
+.single-person-info{
+   display: flex;
+   gap: 30px;
+   .person__left{
+      width: 220px;
+      height: auto;
+      img{
+         object-fit: contain;
+      }
+   }
+   .person__right{
+      .h1{
+         margin-bottom: 30px;
+      }
+      .about-person{
+         display: flex;
+         flex-direction: column;
+         gap: 15px;
+         .attr {
+            display: grid;
+            gap: 40px;
+            grid-template-columns: 1fr 3fr;
+
+            a {
+               color: var(--head);
+
+               &:hover {
+                  color: var(--yeloy);
+               }
+            }
+         }
       }
    }
 }

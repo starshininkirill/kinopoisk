@@ -13,8 +13,6 @@ from kino.forms import ReviewForm, FilterForm
 
 def main_page(request):
     films = Film.objects.all()
-
-    print(films)
     
     if request.GET.get('genres'):
         films = films.filter(genres=request.GET.get('genres'))
@@ -69,17 +67,6 @@ def single_film(request, id):
     return render(request, template_name='kino/pages/single_film.html', context=context)
 
 
-def video(request, pk):
-    file, status_code, content_length, content_range = open_file(request, pk)
-    response = StreamingHttpResponse(file, status=status_code, content_type='video/mp4')
-
-    response['Accept-Ranges'] = 'bytes'
-    response['Content-Length'] = str(content_length)
-    response['Cache-Control'] = 'no-cache'
-    response['Content-Range'] = content_range
-    return response
-
-
 def genres(request):
     genres = Genre.objects.all()
     context ={
@@ -100,6 +87,15 @@ def single_genre(request, id):
     return render(request, 'kino/pages/single-genre.html', context=context)
 
 
+def single_person(request, id):
+    person = Person.objects.get(id=id)
+    context = {
+        'person': person
+    }
+    return render(request, 'kino/pages/single-person.html', context=context)
+
+
+
 def year(request, year):
     year = Year.objects.get(year=year)
     print(year)
@@ -108,11 +104,6 @@ def year(request, year):
         'year': year
     }
     return render(request, 'kino/pages/single-year.html', context=context)
-
-
-def single_person(request, id):
-    person = Person.objects.get(id=id)
-    return render(request, f'{person.name}')
 
 
 def single_country(request, id):
@@ -170,3 +161,12 @@ def set_review_rating(response):
 
 
 
+def video(request, pk):
+    file, status_code, content_length, content_range = open_file(request, pk)
+    response = StreamingHttpResponse(file, status=status_code, content_type='video/mp4')
+
+    response['Accept-Ranges'] = 'bytes'
+    response['Content-Length'] = str(content_length)
+    response['Cache-Control'] = 'no-cache'
+    response['Content-Range'] = content_range
+    return response
