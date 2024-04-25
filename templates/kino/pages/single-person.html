@@ -23,11 +23,39 @@
         {% if person.birthday %}
           <div class="attr birthday">
             <div class="attr__name">Дата рождения</div>
+            <div class="attr__value">{{ person.birthday }}</div>
+          </div>
+        {% endif %}
+        {% if person.place_of_birth %}
+          <div class="attr place_of_birth">
+            <div class="attr__name">Место рождения</div>
+            <div class="attr__value">{{ person.place_of_birth }}</div>
+          </div>
+        {% endif %}
+        {% if person.get_genres %}
+          <div class="attr genres">
+            <div class="attr__name">Жанры</div>
             <div class="attr__value">
-                {{ person.birthday }}
+              {% for genre in person.get_genres %}
+                <a href="#" class="p2">{{ genre.name }}{% if not forloop.last %}, {% endif %}</a>
+              {% endfor %}
             </div>
           </div>
         {% endif %}
+        <div class="attr films">
+          <div class="attr__name">Все фильмы</div>
+          <div class="attr__value">
+            {{ person.count_films }}, <a href="#" class="p2">{{ person.get_range_of_years }}</a>
+          </div>
+        </div>
+      </div>
+      <div class="top-films">
+        <h2>Лучшие фильмы</h2>
+        <div class="films">
+          {% for film in person.get_top_films %} 
+            <a href="{% url 'kino:film' film.id %}" class="p2">{{ film.name }}</a>
+          {% endfor %} 
+        </div>
       </div>
     </div>
   </div>

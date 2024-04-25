@@ -41,6 +41,7 @@ a:hover {
 
 * {
   box-sizing: border-box;
+  font-family: sans-serif;
 }
 
 img {
@@ -91,6 +92,13 @@ img {
 }
 .p1:hover {
   color: var(--card);
+}
+
+.p2 {
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 120%;
+  color: var(--head);
 }
 
 .p3 {
@@ -746,11 +754,12 @@ body {
 
 .single-person-info {
   display: flex;
-  gap: 30px;
+  gap: 50px;
 }
 .single-person-info .person__left {
-  width: 220px;
-  height: auto;
+  width: 250px;
+  height: -moz-fit-content;
+  height: fit-content;
 }
 .single-person-info .person__left img {
   -o-object-fit: contain;
@@ -763,6 +772,7 @@ body {
   display: flex;
   flex-direction: column;
   gap: 15px;
+  margin-bottom: 30px;
 }
 .single-person-info .person__right .about-person .attr {
   display: grid;

@@ -163,6 +163,7 @@ class Person(models.Model):
     name = models.CharField(max_length=100, null=True, blank=True)
     image = models.ImageField(upload_to='persons_images', null=True, blank=True)
     birthday = models.DateField(null=True, blank=True)
+    place_of_birth = models.CharField(max_length=120, null=True, blank=True)
 
     def __str__(self):
         return self.name
@@ -174,6 +175,35 @@ class Person(models.Model):
     def get_roles(self):
         roles = self.personsroles_set.values_list('role__name', flat=True).distinct()
         return list(roles)
+
+    def get_genres(self):
+        genres = set()
+        for role in self.personsroles_set.all():
+            genres.update(role.film.genres.all())
+        return list(genres)
+
+    def count_films(self):
+        films = []
+        for role in self.personsroles_set.all():
+            films.append(role.film.id)
+        return len(set(films))
+
+    def get_range_of_years(self):
+        films = []
+        for role in self.personsroles_set.all():
+            films.append(role.film.year.year)
+        films.sort()
+        return f'{films[0]} - {films[-1]}'
+
+    def get_top_films(self):
+        films = []
+        for role in self.personsroles_set.all():
+            films.append(role.film)
+        films = list(set(films))
+        rated_films = [(film, film.get_average_rating()) for film in films]
+        sorted_films = sorted(rated_films, key=lambda x: x[1], reverse=True)
+        sorted_films_instances = [film[0] for film in sorted_films]
+        return sorted_films_instances[0:5]
 
 
 class PersonsRoles(models.Model):
