@@ -37,7 +37,7 @@
             <div class="attr__name">Жанры</div>
             <div class="attr__value">
               {% for genre in person.get_genres %}
-                <a href="#" class="p2">{{ genre.name }}{% if not forloop.last %}, {% endif %}</a>
+                <a href="#tabs" class="p2">{{ genre.name }}{% if not forloop.last %}, {% endif %}</a>
               {% endfor %}
             </div>
           </div>
@@ -45,18 +45,39 @@
         <div class="attr films">
           <div class="attr__name">Все фильмы</div>
           <div class="attr__value">
-            {{ person.count_films }}, <a href="#" class="p2">{{ person.get_range_of_years }}</a>
+            {{ person.count_films }}, <a href="#tabs" class="p2">{{ person.get_range_of_years }}</a>
           </div>
         </div>
       </div>
       <div class="top-films">
         <h2>Лучшие фильмы</h2>
         <div class="films">
-          {% for film in person.get_top_films %} 
+          {% for film in person.get_top_films %}
             <a href="{% url 'kino:film' film.id %}" class="p2">{{ film.name }}</a>
-          {% endfor %} 
+          {% endfor %}
         </div>
       </div>
+    </div>
+  </div>
+  <div class="single-person-films">
+    <div class="tabs" id="tabs">
+      {% for role, films in person.get_films_by_roles.items %}
+        <div class="tab" id="role-tab-{{ forloop.counter }}">
+          {{ role }}
+          <span>Фильмов: {{ films|length }}</span>
+        </div>
+      {% endfor %}
+    </div>
+    <div class="films-blocks">
+      {% for role, films in person.get_films_by_roles.items %}  
+        <div class="film-block" id="role-block-{{ forloop.counter }}">
+          {% for film in films %}
+            <a href="{% url 'kino:film' film.id %}">
+              {{ film }}
+            </a>
+          {% endfor %}
+        </div>
+      {% endfor %}
     </div>
   </div>
 {% endblock %}

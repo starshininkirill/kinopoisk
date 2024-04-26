@@ -755,6 +755,7 @@ body {
 .single-person-info {
   display: flex;
   gap: 50px;
+  margin-bottom: 50px;
 }
 .single-person-info .person__left {
   width: 250px;
@@ -784,4 +785,34 @@ body {
 }
 .single-person-info .person__right .about-person .attr a:hover {
   color: var(--yeloy);
+}
+
+.single-person-films .tabs {
+  display: flex;
+  gap: 30px;
+  margin-bottom: 30px;
+}
+.single-person-films .tabs .tab {
+  font-size: 24px;
+  font-weight: 600;
+  cursor: pointer;
+  opacity: 0.7;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+.single-person-films .tabs .tab span {
+  font-size: 12px;
+}
+.single-person-films .tabs .tab:hover {
+  opacity: 1;
+}
+.single-person-films .film-block {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.single-person-films .film-block a {
+  color: var(--head);
+  font-size: 22px;
 }/*# sourceMappingURL=main.css.map */

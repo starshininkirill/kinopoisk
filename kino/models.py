@@ -205,6 +205,15 @@ class Person(models.Model):
         sorted_films_instances = [film[0] for film in sorted_films]
         return sorted_films_instances[0:5]
 
+    def get_films_by_roles(self):
+        roles = self.get_roles()
+        res = {}
+        for role in roles:
+            persons_roles = self.personsroles_set.filter(role__name=role)
+            films = [persons_role.film for persons_role in persons_roles]
+            res[role] = films
+        return res
+
 
 class PersonsRoles(models.Model):
     person = models.ForeignKey(Person, on_delete=models.CASCADE)
