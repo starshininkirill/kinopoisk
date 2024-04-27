@@ -1,7 +1,10 @@
-{% if films %}
+{% if films or persons %}
   <div class="films">
+    {% if search %}
+      <h2>Результат поиска: {{ search }}</h2>
+    {% endif %}
     {% for film in films %}
-      <a href="{% url 'kino:film' film.id  %}" class="film">
+      <a href="{% url 'kino:film' film.id %}" class="film">
         <img src="{{ film.image.url }}" class="image" alt="" />
         <div class="film__info">
           <h4 class="name">{{ film.name }}</h4>
@@ -20,6 +23,12 @@
         </div>
       </a>
     {% endfor %}
+    {% if persons %}
+      <div class="h2 person-title">Люди:</div>
+      {% for person in persons %}
+        <a class="h3" href="{% url 'kino:person' person.id %}">{{ person.name }}</a>
+      {% endfor %}
+    {% endif %}
   </div>
 {% else %}
   <div class="h1">Фильмов не найдено</div>

@@ -13,21 +13,32 @@ from kino.forms import ReviewForm, FilterForm
 
 def main_page(request):
     films = Film.objects.all()
-    
+
+    search = None
+    persons = None
+    if request.GET.get('search'):
+        search = request.GET.get('search')
+        films = films.filter(name__iregex=search)
+        persons = Person.objects.filter(name__iregex=search)
+
     if request.GET.get('genres'):
         films = films.filter(genres=request.GET.get('genres'))
-    
+
     if request.GET.get('year'):
         films = films.filter(year=request.GET.get('year'))
-    
+
     if request.GET.get('country'):
         films = films.filter(country=request.GET.get('country'))
-    
+        
+
     form = FilterForm(request.GET)
+    print(search)
     context = {
         'page_title': 'Главная',
         'films': films,
-        'form': form
+        'form': form,
+        'search': search,
+        'persons': persons,
     }
     return render(request, template_name='kino/pages/films.html', context=context)
 
@@ -69,15 +80,15 @@ def single_film(request, id):
 
 def genres(request):
     genres = Genre.objects.all()
-    context ={
+    context = {
         'page__title': 'Жанры',
-        'genres' : genres
+        'genres': genres
     }
     return render(request, 'kino/pages/genres.html', context=context)
 
 
 def single_genre(request, id):
-    genre =  get_object_or_404(Genre, id=id)
+    genre = get_object_or_404(Genre, id=id)
     films = genre.film_set.all()
     context = {
         'page__title': genre.name,
@@ -93,7 +104,6 @@ def single_person(request, id):
         'person': person
     }
     return render(request, 'kino/pages/single-person.html', context=context)
-
 
 
 def year(request, year):
@@ -154,11 +164,10 @@ def set_review_rating(response):
     except ObjectDoesNotExist:
         rating = ReviewRating.objects.create(review_id=review_id, user_id=user_id, rating=rating_type)
         return JsonResponse({
-                'status': 'Успешно создано',
-                'no_changed': False,
-                'created': True,
-            })
-
+            'status': 'Успешно создано',
+            'no_changed': False,
+            'created': True,
+        })
 
 
 def video(request, pk):

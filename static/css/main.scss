@@ -3,6 +3,7 @@
    --head-dark: #131317;
    --card: #fff;
    --bg-light: #f7f7f7;
+   --stroke: #bfb7b7;
    --main-text: #fff9;
    --red: #c10000;
    --yeloy: #f50;
@@ -35,6 +36,14 @@ h2,
    margin-bottom: 20px;
 }
 
+h3,
+.h3 {
+   color: var(--head);
+   font-weight: 600;
+   font-size: 24px;
+   line-height: 120%;
+}
+
 a {
    &:hover {
       color: var(--yeloy);
@@ -44,6 +53,10 @@ a {
 * {
    box-sizing: border-box;
    font-family: sans-serif;
+}
+
+main {
+   margin-bottom: 40px;
 }
 
 img {
@@ -102,7 +115,7 @@ img {
    }
 }
 
-.p2{
+.p2 {
    font-size: 16px;
    font-weight: 400;
    line-height: 120%;
@@ -135,6 +148,18 @@ body {
 .header {
    padding: 20px 0;
    background: var(--head);
+
+   #search {
+      padding: 10px;
+      font-size: 16px;
+      border-radius: 10px;
+      outline: none;
+      border: none;
+
+      &::placeholder {
+         font-size: 16px;
+      }
+   }
 
    .container {
       display: flex;
@@ -509,6 +534,10 @@ body {
    gap: 10px;
    width: 100%;
 
+   .person-title {
+      margin-top: 20px;
+   }
+
    .film {
       background-color: var(--bg-light);
       border-radius: 20px;
@@ -858,26 +887,31 @@ body {
    }
 }
 
-.single-person-info{
+.single-person-info {
    display: flex;
    gap: 50px;
    margin-bottom: 50px;
-   .person__left{
+
+   .person__left {
       width: 250px;
       height: fit-content;
-      img{
+
+      img {
          object-fit: contain;
       }
    }
-   .person__right{
-      .h1{
+
+   .person__right {
+      .h1 {
          margin-bottom: 30px;
       }
-      .about-person{
+
+      .about-person {
          display: flex;
          flex-direction: column;
          gap: 15px;
          margin-bottom: 30px;
+
          .attr {
             display: grid;
             gap: 40px;
@@ -895,12 +929,13 @@ body {
    }
 }
 
-.single-person-films{
-   .tabs{
+.single-person-films {
+   .tabs {
       display: flex;
       gap: 30px;
       margin-bottom: 30px;
-      .tab{
+
+      .tab {
          font-size: 24px;
          font-weight: 600;
          cursor: pointer;
@@ -908,20 +943,68 @@ body {
          display: flex;
          flex-direction: column;
          gap: 3px;
-         span{
+
+         &.active {
+            opacity: 1;
+         }
+
+         span {
             font-size: 12px;
 
          }
-         &:hover{
+
+         &:hover {
             opacity: 1;
          }
       }
    }
-   .film-block{
+
+   .films-blocks {
       display: flex;
       flex-direction: column;
-      gap: 10px;
-      a{
+   }
+
+   .film-block {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      display: none;
+
+      .film {
+         padding-bottom: 10px;
+         border-bottom: 1px solid var(--stroke);
+         display: flex;
+         justify-content: space-between;
+         padding: 20px;
+         transition: all 0.3s ease-in;
+         border-radius: 0;
+
+         &:first-child {
+            border-top: 1px solid var(--stroke);
+         }
+
+         &:hover {
+            background-color: var(--bg-light);
+            border-color: var(--bg-light);
+            border-radius: 10px;
+         }
+
+         .name {
+            margin-bottom: 5px;
+         }
+
+         .film__right {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+         }
+      }
+
+      &.active {
+         display: flex;
+      }
+
+      a {
          color: var(--head);
          font-size: 22px;
       }

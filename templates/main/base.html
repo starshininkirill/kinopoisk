@@ -16,6 +16,9 @@
     <header class="header">
       <div class="container">
         <a href="{% url 'index' %}" class="logo">Кинопоиск</a>
+        <form method="get" action="{% url 'index' %}">
+          <input type="text" name="search" id="search" placeholder="Поиск...">
+        </form>
         <div class="user">
           {% if user.is_authenticated %}
             <div class="user_profile p1">

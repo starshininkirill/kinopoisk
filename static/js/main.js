@@ -67,4 +67,13 @@ jQuery(document).ready(function ($) {
             }
         });
     })
+
+    // Табы на странице Person
+    $('.single-person-films .tabs .tab').on('click', function(){
+        let id = $(this).data('role-tab')
+        $('.single-person-films .tabs .tab').removeClass('active')
+        $(this).addClass('active')
+        $(`.films-blocks  .film-block`).removeClass('active')
+        $(`.films-blocks  .film-block[data-role-block=${id}]`).addClass('active')
+    })
 }) 
