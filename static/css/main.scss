@@ -908,6 +908,9 @@ body {
          display: flex;
          flex-direction: column;
          gap: 3px;
+         &.active{
+            opacity: 1;
+         }
          span{
             font-size: 12px;
 
@@ -921,6 +924,10 @@ body {
       display: flex;
       flex-direction: column;
       gap: 10px;
+      display: none;
+      &.active{
+         display: flex;
+      }
       a{
          color: var(--head);
          font-size: 22px;

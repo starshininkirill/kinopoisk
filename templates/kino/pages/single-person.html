@@ -62,7 +62,7 @@
   <div class="single-person-films">
     <div class="tabs" id="tabs">
       {% for role, films in person.get_films_by_roles.items %}
-        <div class="tab" id="role-tab-{{ forloop.counter }}">
+        <div class="tab {% if forloop.counter == 1 %}active{% endif %}" data-role-tab="{{ forloop.counter }}">
           {{ role }}
           <span>Фильмов: {{ films|length }}</span>
         </div>
@@ -70,7 +70,7 @@
     </div>
     <div class="films-blocks">
       {% for role, films in person.get_films_by_roles.items %}  
-        <div class="film-block" id="role-block-{{ forloop.counter }}">
+        <div class="film-block {% if forloop.counter == 1 %}active{% endif %}" data-role-block="{{ forloop.counter }}">
           {% for film in films %}
             <a href="{% url 'kino:film' film.id %}">
               {{ film }}

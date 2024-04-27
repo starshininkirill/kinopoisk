@@ -801,6 +801,9 @@ body {
   flex-direction: column;
   gap: 3px;
 }
+.single-person-films .tabs .tab.active {
+  opacity: 1;
+}
 .single-person-films .tabs .tab span {
   font-size: 12px;
 }
@@ -811,6 +814,10 @@ body {
   display: flex;
   flex-direction: column;
   gap: 10px;
+  display: none;
+}
+.single-person-films .film-block.active {
+  display: flex;
 }
 .single-person-films .film-block a {
   color: var(--head);
