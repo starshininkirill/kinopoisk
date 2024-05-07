@@ -53,8 +53,8 @@
               <a href="{% url 'kino:country' film.country.id %}">{{ film.country.name }}</a> 
           </div>
         </div>
-        {% if persons %}
-          {% for role, persons in persons.items %}
+        {% if film.get_persons_form_film %}
+          {% for role, persons in film.get_persons_form_film.items %}
           <div class="attr">
             <div class="attr__name">
               {{ role }}
@@ -70,6 +70,38 @@
           </div>
           {% endfor %}
         {% endif %}
+        {% if film.budget %}
+        <div class="attr">
+          <div class="attr__name">Бюджет</div>
+          <div class="attr__value">
+              {{ film.budget }}
+          </div>
+        </div>
+        {% endif %}
+        {% if film.income %}
+        <div class="attr">
+          <div class="attr__name">Сборы в мире</div>
+          <div class="attr__value">
+              {{ film.income }}
+          </div>
+        </div>
+        {% endif %}
+        {% if film.release_date %}
+        <div class="attr">
+          <div class="attr__name">Премьера в мире</div>
+          <div class="attr__value">
+              {{ film.release_date }}
+          </div>
+        </div>
+        {% endif %}
+        {% if film.duration %}
+        <div class="attr">
+          <div class="attr__name">Время</div>
+          <div class="attr__value">
+              {{ film.duration }} мин.
+          </div>
+        </div>
+        {% endif %}
       </div>
     </div>
     <div class="film__right">
@@ -81,6 +113,14 @@
           {% votes user=user film=film %}
         </div>
       </div>
+      {% if film.get_actors_from_film %}
+        <div class="actors">
+          <div class="h4">В главных ролях</div>
+          {% for actor in film.get_actors_from_film %}
+            <a class="actor" href="{% url 'kino:person' actor.person.id %}">{{ actor.person.name }}</a>
+          {% endfor %}
+        </div>
+      {% endif %}
     </div>
   </div>
   <div class="single-film-descr">

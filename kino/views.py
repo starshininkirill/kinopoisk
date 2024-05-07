@@ -64,11 +64,9 @@ def single_film(request, id):
             page_form = form
 
     self_review = get_film_review_or_none(id, request.user.id)
-    persons = get_persons_form_film(film.personsroles_set.all())
     reviews = film.review_set.all().exclude(id=self_review.id) if self_review else film.review_set.all()
     context = {
         'film': film,
-        'persons': persons,
         'reviews': reviews,
         'user': request.user,
         'form': page_form,

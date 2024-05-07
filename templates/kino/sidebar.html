@@ -1,8 +1,9 @@
 {% load kino_tags %}
 
-
-
 <form method="GET" class="filter-form">
+    {% if search %}
+    <input type="hidden" name="search" value="{{ search }}">
+    {% endif %}
     {% for field in form %}
       <div class="group">
         {{ field.label_tag }}

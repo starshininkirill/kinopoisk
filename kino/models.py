@@ -47,6 +47,9 @@ class Film(models.Model):
     trailer = models.FileField(upload_to='trailers', validators=[FileExtensionValidator(allowed_extensions=['mp4'])],
                                null=True, blank=True)
     description = models.TextField(null=True, blank=True)
+    budget = models.CharField(max_length=120, null=True, blank=True)
+    income = models.CharField(max_length=120, null=True, blank=True)
+    release_date = models.DateField(null=True, blank=True)
 
     def __str__(self):
         return self.name
@@ -72,6 +75,20 @@ class Film(models.Model):
     def count_percent_of_reviews(self, type=None):
         percent = self.count_reviews(type) / self.count_reviews() * 100
         return round(percent, 2)
+    
+    def get_persons_form_film(self):
+        persons = {}
+        for person in self.personsroles_set.all().exclude(role__name='Актер'):
+            if person.role.name not in persons.keys():
+                persons[person.role.name] = [person]
+            else:
+                persons[person.role.name].append(person)
+                
+        return persons
+    
+    def get_actors_from_film(self):
+        persons = self.personsroles_set.filter(role__name='Актер')
+        return persons
 
     class Meta:
         verbose_name = 'Фильм'
