@@ -23,6 +23,13 @@
         </div>
       </a>
     {% endfor %}
+    <div class="pagination">
+      {% comment %} {% if films.has_previous %}
+        {% endcomment %}
+        <a class="Next" href="{% url 'index-page' 1 %}">Первая</a>
+        {% comment %}
+      {% endif %} {% endcomment %}
+    </div>
     {% if persons %}
       <div class="h2 person-title">Люди:</div>
       {% for person in persons %}

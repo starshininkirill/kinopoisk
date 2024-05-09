@@ -3,6 +3,7 @@ from users.models import User
 from django.core.validators import MaxValueValidator, MinValueValidator, FileExtensionValidator, MinLengthValidator
 from django.db.models import Avg
 
+
 class Genre(models.Model):
     name = models.CharField(max_length=120, null=True, blank=True)
     image = models.ImageField(upload_to='genres_images', null=True, blank=True)

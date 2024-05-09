@@ -24,6 +24,7 @@ from django.conf import settings
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', main_page, name='index'),
+    path('page/<int:page>/', main_page, name="index-page"),
     path('', include('kino.urls', namespace='kino')),
     path('users/', include('users.urls', namespace='users')),
 ]

@@ -5,13 +5,14 @@ from django.shortcuts import get_object_or_404
 from django.views.decorators.csrf import csrf_exempt
 from pprint import pprint
 from django.core.exceptions import ObjectDoesNotExist
+from django.core.paginator import Paginator
 
 from kino.models import Genre, Film, Year, Rating, User, Role, Person, Review, ReviewRating
 from kino.services import open_file, get_persons_form_film, get_film_review_or_none
 from kino.forms import ReviewForm, FilterForm
 
 
-def main_page(request):
+def main_page(request, page=1):
     films = Film.get_sorted_films()
 
     search = None
@@ -30,12 +31,13 @@ def main_page(request):
     if request.GET.get('country'):
         films = films.filter(country=request.GET.get('country'))
 
-    # films = films.get_sorter_films(films)
+    paginator = Paginator(films, 5)
+    films_on_page = paginator.get_page(page)
 
     form = FilterForm(request.GET)
     context = {
         'page_title': 'Главная',
-        'films': films,
+        'films': films_on_page,
         'form': form,
         'search': search,
         'persons': persons,
