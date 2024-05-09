@@ -1,7 +1,7 @@
 from django.db import models
 from users.models import User
 from django.core.validators import MaxValueValidator, MinValueValidator, FileExtensionValidator, MinLengthValidator
-
+from django.db.models import Avg
 
 class Genre(models.Model):
     name = models.CharField(max_length=120, null=True, blank=True)
@@ -89,6 +89,11 @@ class Film(models.Model):
     def get_actors_from_film(self):
         persons = self.personsroles_set.filter(role__name='Актер')
         return persons
+
+    @classmethod
+    def get_sorted_films(cls):
+        films = cls.objects.all().annotate(average_rating=Avg('ratings__rating')).order_by('-average_rating')
+        return films
 
     class Meta:
         verbose_name = 'Фильм'

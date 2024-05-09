@@ -12,7 +12,7 @@ from kino.forms import ReviewForm, FilterForm
 
 
 def main_page(request):
-    films = Film.objects.all()
+    films = Film.get_sorted_films()
 
     search = None
     persons = None
@@ -29,10 +29,10 @@ def main_page(request):
 
     if request.GET.get('country'):
         films = films.filter(country=request.GET.get('country'))
-        
+
+    # films = films.get_sorter_films(films)
 
     form = FilterForm(request.GET)
-    print(search)
     context = {
         'page_title': 'Главная',
         'films': films,
