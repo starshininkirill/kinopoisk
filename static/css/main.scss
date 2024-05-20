@@ -648,14 +648,17 @@ body {
             margin-bottom: 20px;
          }
       }
-      .actors{
+
+      .actors {
          display: flex;
          flex-direction: column;
          gap: 10px;
-         .actor{
+
+         .actor {
             color: var(--head);
             font-size: 16px;
-            &:hover{
+
+            &:hover {
                color: var(--yeloy);
             }
          }
@@ -939,6 +942,39 @@ body {
             }
          }
       }
+   }
+}
+
+.pagination {
+   display: flex;
+   justify-content: center;
+   margin-top: 40px;
+
+   ul {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+
+      li {
+
+         a,
+         span {
+            font-size: 20px;
+            color: var(--head);
+         }
+
+         a:hover {
+            color: var(--yeloy);
+         }
+
+         span {
+            color: var(--yeloy);
+         }
+      }
+   }
+
+   a {
+      color: var(--head);
    }
 }
 

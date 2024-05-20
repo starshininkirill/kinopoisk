@@ -60,8 +60,7 @@ main {
 img {
   width: 100%;
   height: 100%;
-  -o-object-fit: cover;
-     object-fit: cover;
+  object-fit: cover;
 }
 
 .btn {
@@ -148,9 +147,6 @@ body {
   outline: none;
   border: none;
 }
-.header #search::-moz-placeholder {
-  font-size: 16px;
-}
 .header #search::placeholder {
   font-size: 16px;
 }
@@ -219,7 +215,6 @@ body {
 }
 .users_login .login-form {
   background-color: var(--head-dark);
-  height: -moz-max-content;
   height: max-content;
   padding: 30px 20px;
   border-radius: 20px;
@@ -244,10 +239,6 @@ body {
   border: 1px solid var(--main-text);
   border-radius: 20px;
   background-color: var(--head-dark);
-  font-size: 15px;
-  color: var(--card);
-}
-.users_login .login-form .form-group .form-input::-moz-placeholder {
   font-size: 15px;
   color: var(--card);
 }
@@ -295,7 +286,6 @@ body {
 }
 .users_registration .registration-form {
   background-color: var(--head-dark);
-  height: -moz-max-content;
   height: max-content;
   padding: 30px 20px;
   border-radius: 20px;
@@ -316,10 +306,6 @@ body {
   border: 1px solid var(--main-text);
   border-radius: 20px;
   background-color: var(--head-dark);
-  font-size: 15px;
-  color: var(--card);
-}
-.users_registration .registration-form .form-group .form-input::-moz-placeholder {
   font-size: 15px;
   color: var(--card);
 }
@@ -369,7 +355,6 @@ body {
 }
 .users_profile .profile-form {
   background-color: var(--head-dark);
-  height: -moz-max-content;
   height: max-content;
   padding: 30px 20px;
   border-radius: 20px;
@@ -420,10 +405,6 @@ body {
   border: 1px solid var(--main-text);
   border-radius: 20px;
   background-color: var(--head-dark);
-  font-size: 15px;
-  color: var(--card);
-}
-.users_profile .profile-form .form-group .form-input::-moz-placeholder {
   font-size: 15px;
   color: var(--card);
 }
@@ -650,7 +631,6 @@ body {
 
 .review {
   width: 100%;
-  height: -moz-fit-content;
   height: fit-content;
   padding: 20px;
   background-color: #f2f2f2;
@@ -801,12 +781,10 @@ body {
 }
 .single-person-info .person__left {
   width: 250px;
-  height: -moz-fit-content;
   height: fit-content;
 }
 .single-person-info .person__left img {
-  -o-object-fit: contain;
-     object-fit: contain;
+  object-fit: contain;
 }
 .single-person-info .person__right .h1 {
   margin-bottom: 30px;
@@ -827,6 +805,31 @@ body {
 }
 .single-person-info .person__right .about-person .attr a:hover {
   color: var(--yeloy);
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  margin-top: 40px;
+}
+.pagination ul {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+.pagination ul li a,
+.pagination ul li span {
+  font-size: 20px;
+  color: var(--head);
+}
+.pagination ul li a:hover {
+  color: var(--yeloy);
+}
+.pagination ul li span {
+  color: var(--yeloy);
+}
+.pagination a {
+  color: var(--head);
 }
 
 .single-person-films .tabs {
@@ -893,4 +896,4 @@ body {
 .single-person-films .film-block a {
   color: var(--head);
   font-size: 22px;
-}/*# sourceMappingURL=main.css.map */
+}

@@ -31,7 +31,7 @@ def main_page(request, page=1):
     if request.GET.get('country'):
         films = films.filter(country=request.GET.get('country'))
 
-    paginator = Paginator(films, 5)
+    paginator = Paginator(films, 4)
     films_on_page = paginator.get_page(page)
 
     form = FilterForm(request.GET)

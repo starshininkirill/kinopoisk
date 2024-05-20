@@ -23,13 +23,33 @@
         </div>
       </a>
     {% endfor %}
-    <div class="pagination">
-      {% comment %} {% if films.has_previous %}
-        {% endcomment %}
-        <a class="Next" href="{% url 'index-page' 1 %}">Первая</a>
-        {% comment %}
-      {% endif %} {% endcomment %}
-    </div>
+    {% if films.has_other_pages %}
+      {{ request.GET.search }}
+      <nav class="pagination">
+        <ul>
+          {% if films.has_previous %}
+            <li class="page-number">
+              <a href="/page/{{ films.previous_page_number }}">Предыдущая страница</a>
+            </li>
+          {% endif %}
+          {% for p in films.paginator.page_range %}
+            <li>
+              {% if films.number == p %}
+                <span class="page-number">{{ p }}</span>
+              {% elif p >= films.number|add:'-2' and p <= films.number|add:'2' %}
+                <a class="page_number" href="/page/{{ p }}">{{ p }}</a>
+              {% endif %}
+            </li>
+          {% endfor %}
+          {% if films.has_next %}
+            <li class="page-number">
+              <a href="/page/{{ films.next_page_number }}">Следующая страница</a>
+            </li>
+          {% endif %}
+        </ul>
+      </nav>
+    {% endif %}
+
     {% if persons %}
       <div class="h2 person-title">Люди:</div>
       {% for person in persons %}
