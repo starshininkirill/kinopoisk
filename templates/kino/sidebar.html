@@ -1,34 +1,16 @@
 {% load kino_tags %}
 
-<form method="GET" class="filter-form">
-    {% if search %}
-    <input type="hidden" name="search" value="{{ search }}">
-    {% endif %}
-    {% for field in form %}
-      <div class="group">
-        {{ field.label_tag }}
-        {{ field }}
-        <input type="hidden" data-default-value="{{ field.value|default_if_none:'' }}">
-      </div>
-    {% endfor %}
-    <button class="btn-y" type="submit">Фильтровать</button>
-    <a class="reset" href="{% url 'index' %}">Сбросить фильтр</a>
+<form method="GET" class="filter-form" action="{% url 'index' %}">
+  {% if search %}
+    <input type="hidden" name="search" value="{{ search }}" />
+  {% endif %}
+  {% for field in form %}
+    <div class="group">
+      {{ field.label_tag }}
+      {{ field }}
+      <input type="hidden" data-default-value="{{ field.value|default_if_none:'' }}" />
+    </div>
+  {% endfor %}
+  <button class="btn-y" type="submit">Фильтровать</button>
+  <a class="reset" href="{% url 'index' %}">Сбросить фильтр</a>
 </form>
-  
-  <script>
-    const form = document.querySelector('form');
-    const urlParams = new URLSearchParams(window.location.search);
-  
-    form.addEventListener('submit', function(event) {
-      for (const field of form.elements) {
-        const defaultValue = field.parentNode.querySelector('input[data-default-value]').value;
-        if (field.value === defaultValue) {
-          urlParams.delete(field.name);
-        } else {
-          urlParams.set(field.name, field.value);
-        }
-      }
-      window.location.search = urlParams.toString();
-      event.preventDefault();
-    });
-  </script>

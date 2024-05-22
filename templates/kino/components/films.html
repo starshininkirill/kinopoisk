@@ -24,12 +24,11 @@
       </a>
     {% endfor %}
     {% if films.has_other_pages %}
-      {{ request.GET.search }}
       <nav class="pagination">
         <ul>
           {% if films.has_previous %}
             <li class="page-number">
-              <a href="/page/{{ films.previous_page_number }}">Предыдущая страница</a>
+              <a href="/page/{{ films.previous_page_number }}{{ get_params }}">Предыдущая страница</a>
             </li>
           {% endif %}
           {% for p in films.paginator.page_range %}
@@ -37,13 +36,13 @@
               {% if films.number == p %}
                 <span class="page-number">{{ p }}</span>
               {% elif p >= films.number|add:'-2' and p <= films.number|add:'2' %}
-                <a class="page_number" href="/page/{{ p }}">{{ p }}</a>
+                <a class="page_number" href="/page/{{ p }}{{ get_params }}">{{ p }}</a>
               {% endif %}
             </li>
           {% endfor %}
           {% if films.has_next %}
             <li class="page-number">
-              <a href="/page/{{ films.next_page_number }}">Следующая страница</a>
+              <a href="/page/{{ films.next_page_number }}{{ get_params }}">Следующая страница</a>
             </li>
           {% endif %}
         </ul>

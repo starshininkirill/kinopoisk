@@ -30,6 +30,18 @@ def main_page(request, page=1):
 
     if request.GET.get('country'):
         films = films.filter(country=request.GET.get('country'))
+        
+    if request.GET:
+        get_params = ['?']
+        for param, value in request.GET.items():
+            if len(get_params) == 1:
+                get_params.append(f'{param}={value}')
+            else:
+                get_params.append(f'&{param}={value}')
+        get_params = ''.join(get_params)
+    else:
+        get_params = ''
+
 
     paginator = Paginator(films, 4)
     films_on_page = paginator.get_page(page)
@@ -41,6 +53,7 @@ def main_page(request, page=1):
         'form': form,
         'search': search,
         'persons': persons,
+        'get_params': get_params
     }
     return render(request, template_name='kino/pages/films.html', context=context)
 
