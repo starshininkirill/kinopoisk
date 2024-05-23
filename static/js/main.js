@@ -17,7 +17,6 @@ jQuery(document).ready(function ($) {
                 'rating': rating
             },
             success: function (response) {
-
                 location.reload()
             }
         });
@@ -68,12 +67,25 @@ jQuery(document).ready(function ($) {
         });
     })
 
+    // Удалить отзыв
+    $('.review .delete').on('click', function () {
+        let id = $(this).data('id')
+        $.ajax({
+            url: `/film/${id}`,
+            type: 'DELETE',
+            success: function (response) {
+                console.log(response);
+            }
+        });
+    })
+
     // Табы на странице Person
-    $('.single-person-films .tabs .tab').on('click', function(){
+    $('.single-person-films .tabs .tab').on('click', function () {
         let id = $(this).data('role-tab')
         $('.single-person-films .tabs .tab').removeClass('active')
         $(this).addClass('active')
         $(`.films-blocks  .film-block`).removeClass('active')
         $(`.films-blocks  .film-block[data-role-block=${id}]`).addClass('active')
     })
+
 }) 

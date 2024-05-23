@@ -647,6 +647,7 @@ body {
   border-bottom: 1px solid rgba(31, 31, 31, 0.0705882353);
   padding-bottom: 15px;
   margin-bottom: 25px;
+  align-items: center;
 }
 .review__top .avatar {
   width: 50px;
@@ -661,6 +662,15 @@ body {
 }
 .review__top .create_time {
   margin-left: auto;
+}
+.review__top .delete {
+  font-weight: 700;
+  font-size: 16px;
+  cursor: pointer;
+  padding: 5px;
+  border: 1px solid var(--head);
+  color: var(--head);
+  border-radius: 3px;
 }
 .review__bottom {
   margin-top: 20px;
@@ -750,7 +760,7 @@ body {
   display: flex;
   flex-direction: column;
   gap: 10px;
-  width: 200px;
+  width: 250px;
 }
 .filter-form .reset {
   text-align: center;
@@ -805,6 +815,27 @@ body {
 }
 .single-person-info .person__right .about-person .attr a:hover {
   color: var(--yeloy);
+}
+
+.widgets {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+.widgets .sort-form {
+  width: 250px;
+}
+.widgets .sort-form label {
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 5px;
+  display: block;
+}
+.widgets .sort-form select {
+  padding: 5px;
+  border-radius: 3px;
+  font-size: 18px;
+  width: 100%;
 }
 
 .pagination {

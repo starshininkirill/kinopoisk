@@ -30,6 +30,19 @@ def main_page(request, page=1):
 
     if request.GET.get('country'):
         films = films.filter(country=request.GET.get('country'))
+
+    if request.GET.get('sort'):
+        sort_method = request.GET.get('sort')
+        if sort_method == 'name':
+            films = films.order_by('name')
+        if sort_method == '-name':
+            films = films.order_by('-name')
+        if sort_method == '-rate':
+            films = films.reverse()
+        if sort_method == 'year':
+            films = films.order_by('year__year')
+        if sort_method == '-year':
+            films = films.order_by('-year__year')
         
     if request.GET:
         get_params = ['?']
@@ -77,6 +90,8 @@ def single_film(request, id):
                 self_review.save()
         else:
             page_form = form
+    elif request.method == 'DELETE':
+        print('delete')
 
     self_review = get_film_review_or_none(id, request.user.id)
     reviews = film.review_set.all().exclude(id=self_review.id) if self_review else film.review_set.all()
@@ -88,7 +103,7 @@ def single_film(request, id):
         'self_review': self_review
     }
 
-    return render(request, template_name='kino/pages/single_film.html', context=context)
+    return render(request, template_name='kino/pages/single-film.html', context=context)
 
 
 def genres(request):

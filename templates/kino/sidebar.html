@@ -1,16 +1,29 @@
 {% load kino_tags %}
 
-<form method="GET" class="filter-form" action="{% url 'index' %}">
-  {% if search %}
-    <input type="hidden" name="search" value="{{ search }}" />
-  {% endif %}
-  {% for field in form %}
-    <div class="group">
-      {{ field.label_tag }}
-      {{ field }}
-      <input type="hidden" data-default-value="{{ field.value|default_if_none:'' }}" />
+<div class="widgets">
+  <form method="GET" class="filter-form" action="{% url 'index' %}">
+    <div class="sort-form">
+      <label for="sort">Сортировка</label>
+      <select name="sort" id="sort">
+        <option value="" {% if not request.GET.sort %}selected{% endif %}>По убыванию рейтинга</option>
+        <option value="-rate" {% if request.GET.sort == '-rate' %}selected{% endif %}>По возрастанию рейтинга</option>
+        <option value="name" {% if request.GET.sort == 'name' %}selected{% endif %}>По названию</option>
+        <option value="-name" {% if request.GET.sort == '-name' %}selected{% endif %}>По названию в обратном порядке</option>
+        <option value="-year" {% if request.GET.sort == '-year' %}selected{% endif %}>По году</option>
+        <option value="year" {% if request.GET.sort == 'year' %}selected{% endif %}>По году в обратном порядке</option>
+      </select>
     </div>
-  {% endfor %}
-  <button class="btn-y" type="submit">Фильтровать</button>
-  <a class="reset" href="{% url 'index' %}">Сбросить фильтр</a>
-</form>
+    {% if search %}
+      <input type="hidden" name="search" value="{{ search }}" />
+    {% endif %}
+    {% for field in form %}
+      <div class="group">
+        {{ field.label_tag }}
+        {{ field }}
+        <input type="hidden" data-default-value="{{ field.value|default_if_none:'' }}" />
+      </div>
+    {% endfor %}
+    <button class="btn-y" type="submit">Фильтровать</button>
+    <a class="reset" href="{% url 'index' %}">Сбросить фильтр</a>
+  </form>
+</div>

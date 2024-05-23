@@ -751,6 +751,7 @@ body {
       border-bottom: 1px solid #1f1f1f12;
       padding-bottom: 15px;
       margin-bottom: 25px;
+      align-items: center;
 
       .avatar {
          width: 50px;
@@ -767,6 +768,16 @@ body {
 
       .create_time {
          margin-left: auto;
+      }
+
+      .delete {
+         font-weight: 700;
+         font-size: 16px;
+         cursor: pointer;
+         padding: 5px;
+         border: 1px solid var(--head);
+         color: var(--head);
+         border-radius: 3px;
       }
    }
 
@@ -875,7 +886,7 @@ body {
    display: flex;
    flex-direction: column;
    gap: 10px;
-   width: 200px;
+   width: 250px;
 
    .reset {
       text-align: center;
@@ -941,6 +952,30 @@ body {
                }
             }
          }
+      }
+   }
+}
+
+.widgets {
+   display: flex;
+   flex-direction: column;
+   gap: 15px;
+
+   .sort-form {
+      width: 250px;
+
+      label {
+         font-size: 18px;
+         font-weight: 600;
+         margin-bottom: 5px;
+         display: block;
+      }
+
+      select {
+         padding: 5px;
+         border-radius: 3px;
+         font-size: 18px;
+         width: 100%;
       }
    }
 }

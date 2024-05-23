@@ -1,8 +1,9 @@
 from django import forms
-from kino.models import Review, Film, Genre
+from kino.models import Review, Film, Genre, Year
 
 
 class FilterForm(forms.ModelForm):
+    year = forms.ModelChoiceField(queryset=Year.objects.order_by('-year'))
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -20,7 +21,7 @@ class FilterForm(forms.ModelForm):
         model = Film
         fields = ['country', 'genres', 'year']
         widgets = {
-            'genres': forms.Select(choices=Genre.objects.all())
+            'genres': forms.Select(choices=Genre.objects.all()),
         }
 
 
