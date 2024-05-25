@@ -6,6 +6,7 @@ app_name = 'kino'
 urlpatterns = [
     path('film/', views.main_page, name='film'),
     path('film/<int:id>', views.single_film, name='film'),
+    path('review/<int:id>', views.review, name='review'),
     path('video/<int:pk>/', views.video, name='video'),
     path('genre/', views.genres, name='genre'),
     path('genre/<int:id>/', views.single_genre, name='genre'),

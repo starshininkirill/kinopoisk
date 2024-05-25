@@ -1,7 +1,7 @@
 from django.db.models import Q
 from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse, StreamingHttpResponse
-from django.shortcuts import get_object_or_404
+from django.shortcuts import get_object_or_404, redirect
 from django.views.decorators.csrf import csrf_exempt
 from pprint import pprint
 from django.core.exceptions import ObjectDoesNotExist
@@ -88,10 +88,9 @@ def single_film(request, id):
                     type=form.cleaned_data['type']
                 )
                 self_review.save()
+                return redirect('kino:film', id=id)
         else:
             page_form = form
-    elif request.method == 'DELETE':
-        print('delete')
 
     self_review = get_film_review_or_none(id, request.user.id)
     reviews = film.review_set.all().exclude(id=self_review.id) if self_review else film.review_set.all()
@@ -104,6 +103,17 @@ def single_film(request, id):
     }
 
     return render(request, template_name='kino/pages/single-film.html', context=context)
+
+
+def review(request, id):
+    if request.method.lower() == "delete":
+        try:
+            review = Review.objects.get(pk=id)
+            review.delete()
+            return HttpResponse(status=204)
+        except:
+            return HttpResponse(status=404)
+
 
 
 def genres(request):

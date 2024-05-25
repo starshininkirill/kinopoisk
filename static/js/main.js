@@ -68,15 +68,29 @@ jQuery(document).ready(function ($) {
     })
 
     // Удалить отзыв
-    $('.review .delete').on('click', function () {
+    $('#delete-review-form .delete').on('click', function (e) {
+        e.preventDefault()
         let id = $(this).data('id')
-        $.ajax({
-            url: `/film/${id}`,
-            type: 'DELETE',
-            success: function (response) {
-                console.log(response);
-            }
-        });
+        var csrftoken = $('#delete-review-form input[name="csrfmiddlewaretoken"]').val();
+
+        let result = confirm('Вы уверены, что хотите удалить этот отзыв?');
+
+        if (result) {
+            $.ajax({
+                method: 'DELETE',
+                url: `/review/${id}`,
+                beforeSend: function (xhr, settings) {
+                    xhr.setRequestHeader("X-CSRFToken", csrftoken);
+                },
+                success: function (response) {
+                    $('.self-review').remove()
+                    alert("Ваш отзыв удалён!");
+                },
+                error: function (response) {
+                    alert('Ошибка! Не удалось удалить отзыв')
+                }
+            });
+        }
     })
 
     // Табы на странице Person
