@@ -143,21 +143,6 @@ def single_person(request, id):
     }
     return render(request, 'kino/pages/single-person.html', context=context)
 
-
-def year(request, year):
-    year = Year.objects.get(year=year)
-    print(year)
-    context = {
-        'page__title': 'Год',
-        'year': year
-    }
-    return render(request, 'kino/pages/single-year.html', context=context)
-
-
-def single_country(request, id):
-    return HttpResponse(status=200)
-
-
 @csrf_exempt
 def vote(response):
     film_id = int(response.POST['film'])

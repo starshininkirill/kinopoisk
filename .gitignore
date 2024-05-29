@@ -1,4 +1,5 @@
 /venv/
+/db.sqlite3
 /venv/Lib/site-packages/_distutils_hack/__init__.py
 /venv/Lib/site-packages/_distutils_hack/override.py
 /venv/Lib/site-packages/asgiref/__init__.py
@@ -5203,3 +5204,4 @@
 /venv/Scripts/pythonw.exe
 /venv/Scripts/sqlformat.exe
 /venv/pyvenv.cfg
+/venv/
