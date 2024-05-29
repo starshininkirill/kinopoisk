@@ -14,8 +14,18 @@ class ReviewAdmin(admin.ModelAdmin):
     list_display = ('film', 'user', 'type')
 
 
+class PersonsRolesInline(admin.TabularInline):
+    model = PersonsRoles
+
+
+class FilmAdmin(admin.ModelAdmin):
+    inlines = [
+        PersonsRolesInline,
+    ]
+
+
 admin.site.register(Genre)
-admin.site.register(Film)
+admin.site.register(Film, FilmAdmin)
 admin.site.register(Country)
 admin.site.register(Year)
 admin.site.register(Rating, RatingAdmin)

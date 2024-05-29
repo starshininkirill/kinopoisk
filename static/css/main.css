@@ -330,6 +330,10 @@ body {
   flex-direction: column;
   gap: 5px;
 }
+.users_registration .registration-form .form-group.row {
+  flex-direction: row;
+  align-items: center;
+}
 .users_registration .registration-form .form-group .form-input {
   padding: 12px 10px;
   border: 1px solid var(--main-text);

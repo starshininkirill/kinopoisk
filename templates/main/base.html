@@ -25,7 +25,9 @@
             <div class="user_profile p1">
               <a class="user_link" href="{% url 'users:profile' %}">{{ user.username }}</a>
               <div class="submenu">
+                {% if user.is_staff %}
                 <a href="{% url 'admin:index' %}" target="_blank">Админ панель</a>
+                {% endif %}
                 <a href="{% url 'users:logout' %}">Выйти</a>
               </div>
             </div>

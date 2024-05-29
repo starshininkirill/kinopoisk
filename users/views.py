@@ -6,6 +6,7 @@ from django.contrib.auth.forms import UserCreationForm
 
 from users.models import User
 from users.forms import UserLoginForm, UserRegistrationForm, UserProfileForm
+from django.contrib.auth.models import Group
 
 
 def user_login(request):
@@ -34,10 +35,16 @@ def registration(request):
             form.save()
             username = form.cleaned_data.get('username')
             password = form.cleaned_data.get('password1')
+            is_admin = form.cleaned_data.get('is_admin')
 
-            print(username, password)
             user = authenticate(username=username, password=password)
-            print(user)
+
+            if is_admin:
+                admin_group = Group.objects.get(name='admin')
+                admin_group.user_set.add(user)
+                user.is_staff = True
+                user.save()
+
             login(request, user)
             return HttpResponseRedirect(reverse('index'))
     else:

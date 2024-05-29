@@ -19,6 +19,9 @@ class UserLoginForm(AuthenticationForm):
 
 
 class UserRegistrationForm(UserCreationForm):
+
+    is_admin = forms.BooleanField(required=False)
+
     username = forms.CharField(widget=forms.TextInput(attrs={
         'class': 'form-input',
         'placeholder': 'Введите имя пользователя'
@@ -36,7 +39,7 @@ class UserRegistrationForm(UserCreationForm):
 
     class Meta:
         model = User
-        fields = ('username', 'email', 'password1', 'password2')
+        fields = ('is_admin', 'username', 'email', 'password1', 'password2')
         
         
 

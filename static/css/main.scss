@@ -292,6 +292,8 @@ body {
          flex-direction: column;
          gap: 5px;
 
+
+
          .form-input {
             padding: 12px 10px;
             border: 1px solid var(--main-text);
@@ -369,6 +371,11 @@ body {
          display: flex;
          flex-direction: column;
          gap: 5px;
+
+         &.row {
+            flex-direction: row;
+            align-items: center;
+         }
 
          .form-input {
             padding: 12px 10px;

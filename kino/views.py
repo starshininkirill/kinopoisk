@@ -1,9 +1,7 @@
-from django.db.models import Q
 from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse, StreamingHttpResponse
 from django.shortcuts import get_object_or_404, redirect
 from django.views.decorators.csrf import csrf_exempt
-from pprint import pprint
 from django.core.exceptions import ObjectDoesNotExist
 from django.core.paginator import Paginator
 
