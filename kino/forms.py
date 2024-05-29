@@ -16,13 +16,15 @@ class FilterForm(forms.ModelForm):
         self.fields['country'].required = False
         self.fields['year'].required = False
         self.fields['genres'].required = False
+        
+        class Meta:
+            model = Film
+            fields = ['country', 'genres', 'year']
+            widgets = {
+                'genres': forms.Select(choices=Genre.objects.all()),
+            }
 
-    class Meta:
-        model = Film
-        fields = ['country', 'genres', 'year']
-        widgets = {
-            'genres': forms.Select(choices=Genre.objects.all()),
-        }
+
 
 
 class ReviewForm(forms.ModelForm):
