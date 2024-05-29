@@ -1,5 +1,4 @@
 from django import template
-import kino.views as views
 from kino.models import Rating, Film
 
 register = template.Library()
