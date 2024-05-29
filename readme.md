@@ -24,7 +24,7 @@
 
 ## Запуск проекта
 
-1. Склонируйте репозиторий: `git clone https://github.com/starshininkirill/kinopoisk .`
+1. Склонируйте репозиторий: `git clone https://github.com/starshininkirill/kinopoisk`
 2. Создайте виртуальное окружение: `python -m venv venv`
 3. Активируйте виртуальное окружение: `source venv/bin/activate` (для Windows: `venv\Scripts\activate`)
 4. Установите зависимости: `pip install -r requirements.txt`
