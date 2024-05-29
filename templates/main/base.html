@@ -23,8 +23,11 @@
         <div class="user">
           {% if user.is_authenticated %}
             <div class="user_profile p1">
-              <a href="{% url 'users:profile' %}">{{ user.username }}</a>
-              <a href="{% url 'users:logout' %}" class="p1">Выйти</a>
+              <a class="user_link" href="{% url 'users:profile' %}">{{ user.username }}</a>
+              <div class="submenu">
+                <a href="{% url 'admin:index' %}" target="_blank">Админ панель</a>
+                <a href="{% url 'users:logout' %}">Выйти</a>
+              </div>
             </div>
           {% else %}
             <a href="{% url 'users:login' %}" class="user_auth p1">Войти</a>

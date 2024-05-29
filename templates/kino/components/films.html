@@ -26,23 +26,27 @@
     {% if films.has_other_pages %}
       <nav class="pagination">
         <ul>
-          {% if films.has_previous %}
-            <li class="page-number">
-              <a href="/page/{{ films.previous_page_number }}{{ get_params }}">Предыдущая страница</a>
+          {% if films.number > 2 %}
+            <li>
+              <a class="page_number" href="/page/1{{ get_params }}">1</a>
             </li>
+            <li>...</li>
           {% endif %}
           {% for p in films.paginator.page_range %}
-            <li>
-              {% if films.number == p %}
+            {% if films.number == p %}
+              <li>
                 <span class="page-number">{{ p }}</span>
-              {% elif p >= films.number|add:'-2' and p <= films.number|add:'2' %}
+              </li>
+            {% elif p >= films.number|add:'-1' and p <= films.number|add:'1' %}
+              <li>
                 <a class="page_number" href="/page/{{ p }}{{ get_params }}">{{ p }}</a>
-              {% endif %}
-            </li>
+              </li>
+            {% endif %}
           {% endfor %}
-          {% if films.has_next %}
-            <li class="page-number">
-              <a href="/page/{{ films.next_page_number }}{{ get_params }}">Следующая страница</a>
+          {% if films.number != films.paginator.num_pages and films.number != films.paginator.num_pages|add:'-1' %}
+            <li>...</li>
+            <li>
+              <a class="page_number" href="/page/{{ films.paginator.num_pages }}{{ get_params }}">{{ films.paginator.num_pages }}</a>
             </li>
           {% endif %}
         </ul>

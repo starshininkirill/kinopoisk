@@ -163,6 +163,35 @@ body {
   text-transform: uppercase;
   font-family: sans-serif;
 }
+.header .user_profile {
+  position: relative;
+}
+.header .user_profile .user_link:hover + .submenu {
+  display: flex;
+  opacity: 1;
+  z-index: 4;
+}
+.header .user_profile .submenu {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  background-color: var(--head);
+  border-radius: 10px;
+  width: fit-content;
+  padding: 20px;
+  left: -20px;
+  opacity: 0;
+  z-index: -2;
+  transition: all 0.3s ease-in;
+}
+.header .user_profile .submenu:hover {
+  opacity: 1;
+  z-index: 4;
+}
+.header .user_profile .submenu a {
+  white-space: nowrap;
+}
 
 .footer {
   padding: 20px 0;

@@ -56,8 +56,7 @@ class Film(models.Model):
         return self.name
 
     def count_film_votes(self):
-        ratings = self.ratings.all()
-        return len(ratings)
+        return self.ratings.count()
 
     def get_average_rating(self):
         ratings = self.ratings.all()
