@@ -27,12 +27,12 @@
 1. Склонируйте репозиторий: `git clone https://github.com/starshininkirill/kinopoisk`
 2. Создайте виртуальное окружение: `python -m venv venv`
 3. Активируйте виртуальное окружение: `source venv/bin/activate` (для Windows: `venv\Scripts\activate`)
-4. Установите зависимости: `pip install -r kinopoisk/requirements.txt`
+4. Установите зависимости: `pip install -r requirements.txt`
 5. Создайте базу данных: `python manage.py migrate`
 6. Загрузите базу данных `python manage.py loaddata data.json`
 7. Запустите сервер: `python manage.py runserver`
 
 ## Скриншоты
 
-![Главная страница](/screenshots/main.png)
-![Страница фильма](/screenshots/film.png)
+![Главная страница](/media/screenshots/main.png)
+![Страница фильма](/media/screenshots/film.png)
