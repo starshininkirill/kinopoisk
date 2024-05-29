@@ -4,5 +4,5 @@
 
 ## Скриншоты
 
-![Главная страница](/screenshots/main.png)
-![Страница фильма](/screenshots/film.png)
+![Главная страница](/media/screenshots/main.png)
+![Страница фильма](/media/screenshots/film.png)
