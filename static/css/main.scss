@@ -526,8 +526,8 @@ body {
 }
 
 .genres {
-   display: flex;
-   flex-direction: column;
+   display: grid;
+   grid-template-columns: repeat(3, 1fr);
    gap: 10px;
 
    .genre {
@@ -549,6 +549,11 @@ body {
       img {
          height: 70px;
          width: 70px;
+      }
+      .text{
+         display: flex;
+         flex-direction: column;
+         gap: 5px;
       }
    }
 }

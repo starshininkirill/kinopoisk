@@ -10,7 +10,9 @@ class Genre(models.Model):
 
     def __str__(self):
         return self.name
-
+    
+    def count_films(self):
+        return self.film_set.count()
     class Meta:
         verbose_name = 'Жанр'
         verbose_name_plural = 'Жанры'

@@ -113,7 +113,6 @@ def review(request, id):
             return HttpResponse(status=404)
 
 
-
 def genres(request):
     genres = Genre.objects.all()
     context = {
@@ -123,13 +122,16 @@ def genres(request):
     return render(request, 'kino/pages/genres.html', context=context)
 
 
-def single_genre(request, id):
+def single_genre(request, id, page=1):
     genre = get_object_or_404(Genre, id=id)
     films = genre.film_set.all()
+
+    paginator = Paginator(films, 5)
+    films_on_page = paginator.get_page(page)
     context = {
         'page__title': genre.name,
         'genre': genre,
-        'films': films,
+        'films': films_on_page,
     }
     return render(request, 'kino/pages/single-genre.html', context=context)
 

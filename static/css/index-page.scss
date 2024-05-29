@@ -10,6 +10,10 @@ main#main-page {
          color: inherit;
          font-size: 24px;
          font-weight: 500;
+
+         &.active {
+            color: var(--yeloy);
+         }
       }
    }
 }

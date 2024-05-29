@@ -4,8 +4,8 @@
   <main id="main-page">
     <div class="container">
       <section class="nav">
-        <a href="{% url 'index' %}">Все фильмы</a>
-        <a href="{% url 'kino:genre' %}">Жанры</a>
+        <a href="{% url 'index' %}" {% if request.path == '/' %} class="active" {% endif %}>Все фильмы</a>
+        <a href="{% url 'kino:genre' %}"{% if request.path == '/genre/' %} class="active" {% endif %}>Жанры</a>
       </section>
       <section class="content">
         {% block content %}

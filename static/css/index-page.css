@@ -10,3 +10,6 @@ main#main-page .nav a {
   font-size: 24px;
   font-weight: 500;
 }
+main#main-page .nav a.active {
+  color: var(--yeloy);
+}

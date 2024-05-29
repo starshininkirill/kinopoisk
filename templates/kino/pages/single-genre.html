@@ -11,6 +11,35 @@
           {% film film=film.id %}
         {% endfor %}
       </div>
+      {% if films.has_other_pages %}
+        <nav class="pagination">
+          <ul>
+            {% if films.number > 2 %}
+              <li>
+                <a class="page_number" href="{% url 'kino:genre' id=genre.id page=1 %}">1</a>
+              </li>
+              <li>...</li>
+            {% endif %}
+            {% for p in films.paginator.page_range %}
+              {% if films.number == p %}
+                <li>
+                  <span class="page-number">{{ p }}</span>
+                </li>
+              {% elif p >= films.number|add:'-1' and p <= films.number|add:'1' %}
+                <li>
+                  <a class="page_number" href="{% url 'kino:genre' id=genre.id page=p %}">{{ p }}</a>
+                </li>
+              {% endif %}
+            {% endfor %}
+            {% if films.number != films.paginator.num_pages and films.number != films.paginator.num_pages|add:'-1' %}
+              <li>...</li>
+              <li>
+                <a class="page_number" href="{% url 'kino:genre' id=genre.id page=films.paginator.num_pages %}">{{ films.paginator.num_pages }}</a>
+              </li>
+            {% endif %}
+          </ul>
+        </nav>
+      {% endif %}
     {% endif %}
   </div>
 {% endblock %}

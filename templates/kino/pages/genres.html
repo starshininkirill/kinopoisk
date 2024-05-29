@@ -8,7 +8,10 @@
           {% if genre.image %}
             <img src="{{ genre.image.url }}" alt="" />
           {% endif %}
-          <div class="h4">{{ genre.name }}</div>
+          <div class="text">
+            <div class="h4">{{ genre.name }}</div>
+            <div class="p2">Фильмов: {{ genre.count_films }}</div>
+          </div>
         </a>
       {% endfor %}
     </div>

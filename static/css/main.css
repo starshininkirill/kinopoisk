@@ -461,8 +461,8 @@ body {
 }
 
 .genres {
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
   gap: 10px;
 }
 .genres .genre {
@@ -483,6 +483,11 @@ body {
 .genres .genre img {
   height: 70px;
   width: 70px;
+}
+.genres .genre .text {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
 }
 
 .single-genre .page-title {
