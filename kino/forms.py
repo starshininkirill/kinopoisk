@@ -4,6 +4,7 @@ from kino.models import Review, Film, Genre, Year
 
 class FilterForm(forms.ModelForm):
     year = forms.ModelChoiceField(queryset=Year.objects.order_by('-year'))
+    genres = forms.ModelChoiceField(queryset=Genre.objects.all())
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -16,15 +17,10 @@ class FilterForm(forms.ModelForm):
         self.fields['country'].required = False
         self.fields['year'].required = False
         self.fields['genres'].required = False
-        
-        class Meta:
-            model = Film
-            fields = ['country', 'genres', 'year']
-            widgets = {
-                'genres': forms.Select(choices=Genre.objects.all()),
-            }
 
-
+    class Meta:
+        model = Film
+        fields = ['country', 'genres', 'year']
 
 
 class ReviewForm(forms.ModelForm):
