@@ -1,0 +1,256 @@
+{% extends 'kino/index.html' %}
+{% load kino_tags %}
+
+{% block content %}
+  <div class="single-film">
+    <div class="film__left">
+      <div class="film__image">
+        <img src="{{ film.image.url }}" alt="" />
+      </div>
+      <div class="film__trailer">
+        <video
+          id="my-video"
+          class="video-js"
+          controls
+          preloader="auto"
+          width="100%"
+          height="200"
+          data-setup="{}"  
+        >
+          <source src="{% url 'kino:video' film.id %}" type="video/mp4">
+          <source src="{% url 'kino:video' film.id %}" type="video/webm">
+
+        </video>
+        <h4>
+          Трейлер
+        </h4>
+      </div>
+    </div>
+    <div class="film__center">
+      <h1 class="film__title">
+        {{ film.name }}{% if film.year %}
+          ({{ film.year }})
+        {% endif %}
+      </h1>
+      <h2 class="film__subtitle">О фильме</h2>
+      <div class="film__about">
+        <div class="film__year attr">
+          <div class="attr__name">Год производства</div>
+          <div class="attr__value">{{ film.year }}</div>
+        </div>
+        <div class="film__genres attr">
+          <div class="attr__name">Жанр</div>
+          <div class="attr__value">
+            {% for genre in film.genres.all %}
+              <a href="{% url 'kino:genre' genre.id %}">{{ genre.name }}</a>
+              {% if not forloop.last %}, {% endif %}
+            {% endfor %}
+          </div>
+        </div>
+        <div class="film__country attr">
+          <div class="attr__name">Страна</div>
+          <div class="attr__value">
+              <div>{{ film.country.name }}</div> 
+          </div>
+        </div>
+        {% if film.get_persons_form_film %}
+          {% for role, persons in film.get_persons_form_film.items %}
+          <div class="attr">
+            <div class="attr__name">
+              {{ role }}
+            </div>
+            <div class="attr__value">
+              {% for person in persons %}
+                <a href="{% url 'kino:person' person.person.id %}">
+                  {{ person.person }}
+                </a>
+                {% if not forloop.last %}, {% endif %}
+              {% endfor %}
+            </div>
+          </div>
+          {% endfor %}
+        {% endif %}
+        {% if film.budget %}
+        <div class="attr">
+          <div class="attr__name">Бюджет</div>
+          <div class="attr__value">
+              {{ film.budget }}
+          </div>
+        </div>
+        {% endif %}
+        {% if film.income %}
+        <div class="attr">
+          <div class="attr__name">Сборы в мире</div>
+          <div class="attr__value">
+              {{ film.income }}
+          </div>
+        </div>
+        {% endif %}
+        {% if film.release_date %}
+        <div class="attr">
+          <div class="attr__name">Премьера в мире</div>
+          <div class="attr__value">
+              {{ film.release_date }}
+          </div>
+        </div>
+        {% endif %}
+        {% if film.duration %}
+        <div class="attr">
+          <div class="attr__name">Время</div>
+          <div class="attr__value">
+              {{ film.duration }} мин.
+          </div>
+        </div>
+        {% endif %}
+      </div>
+    </div>
+    <div class="film__right">
+      <div class="film__rating">
+        <div class="votes p3">Оценок: {{ film.count_film_votes }}</div>
+        <div class="average h4">Рейтинг: {{ film.get_average_rating }}/10</div>
+
+        <div class="go__vote">
+          {% votes user=user film=film %}
+        </div>
+      </div>
+      {% if film.get_actors_from_film %}
+        <div class="actors">
+          <div class="h4">В главных ролях</div>
+          {% for actor in film.get_actors_from_film %}
+            <a class="actor" href="{% url 'kino:person' actor.person.id %}">{{ actor.person.name }}</a>
+          {% endfor %}
+        </div>
+      {% endif %}
+    </div>
+  </div>
+  <div class="single-film-descr">
+    <div class="h2">
+      Описание
+    </div>
+    <p class="descr">
+      {% if film.description %}
+      {{ film.description }}
+      {% else %}
+        Описания нет
+      {% endif %}
+    </p>
+    <div class="go__vote">
+      {% votes user=user film=film %}
+    </div>
+  </div>
+    {% if reviews or self_review %}
+      <div class="reviews">
+        <div class="reviews__left">
+          {% if self_review %}
+          <div class="self-review">
+            <h2>Ваша Рецензия</h2>
+            <div class="review {% if self_review.type == 'like' %}positive{% elif  self_review.type == 'dislike' %}negative{% endif %}">
+              <div class="review__top">
+                <img src="{% if self_review.user.avatar %}{{ self_review.user.avatar.url }}{% else %}https://www.pngall.com/wp-content/uploads/5/User-Profile-PNG-High-Quality-Image.png{% endif %}" alt="" class="avatar">
+                <div class="name">
+                  <h4>{{ self_review.user.username }}</h4>
+                  рецензий: {{ self_review.count_user_reviews }} 
+                </div>
+                <div class="create_time">
+                  {{ self_review.create_time }}
+                </div>
+                <form id="delete-review-form" method="delete">
+                  {% csrf_token %}
+                  <button class="delete" data-id="{{ self_review.id }}">
+                    удалить
+                  </button>
+                </form>
+              </div>
+              <div class="review__content">
+                {{ self_review.text }}
+              </div>
+              {% review_rating user=user review=self_review %}
+          </div>
+          </div>
+          {% endif %}
+          {% if reviews %}
+            <div class="h2">
+              Рецензии зрителей
+            </div>
+          {% endif %}
+          {% for review in reviews %}
+          <div class="review {% if review.type == 'like' %}positive{% elif  review.type == 'dislike' %}negative{% endif %}">
+            <div class="review__top">
+              <img src="{% if review.user.avatar %}{{ review.user.avatar.url }}{% else %}https://www.pngall.com/wp-content/uploads/5/User-Profile-PNG-High-Quality-Image.png{% endif %}" alt="" class="avatar">
+              <div class="name">
+                <h4>{{ review.user.username }}</h4>
+                рецензий: {{ review.count_user_reviews }} 
+              </div>
+              <div class="create_time">
+                {{ review.create_time }}
+              </div>
+            </div>
+            <div class="review__content">
+              {{ review.text }}
+            </div>
+            {% review_rating user=user review=review %}
+          </div>
+          {% endfor %}
+        </div>
+        <div class="reviews__right">
+          <div class="all p3">
+            <span class="h4">
+              {% count_review film=film %}
+            </span>
+            Всего 
+          </div>
+          <div class="p3">
+            <span class="h4 positive">
+              {% count_review film=film type='like' %} <span class="percent"> {% count_percent_of_review film=film type='like' %} %  </span>
+            </span>
+            Хороших
+          </div>
+          <div class="p3">
+            <span class="h4 negative">
+              {% count_review film=film type='dislike' %} <span class="percent"> {% count_percent_of_review film=film type='dislike' %} %  </span>
+            </span>
+            Плохих
+          </div>
+          <div class="p3">
+            <span class="h4 neutral">
+              {% count_review film=film type='neutral' %} <span class="percent"> {% count_percent_of_review film=film type='neutral' %} %  </span>
+            </span>
+            Нейтральных
+          </div>
+        </div>
+      </div>
+    {% endif %}
+
+  {% if user.is_authenticated and not self_review %}
+  <div class="add-review">
+    <form action="{% url 'kino:film' film.id %}" method="POST">
+      {% csrf_token %}
+      <h2 class="title">
+        Написать рецензию
+      </h2>
+      <div class="error">
+        {{ form.type.errors }}
+      </div>
+      <div class="error">
+        {{ form.text.errors }}
+      </div>
+      <div class="form-inputs">
+        {{ form.text }}
+        <label class="p1" for="{{ form.type.id_for_label }}">
+          Тип отзыва
+        </label>
+        {{ form.type }}
+      </div>
+      <button class="btn-y" type="submit">
+          Оставить рецензию
+      </button>
+    </form>
+  </div>
+  {% endif %}
+
+  {% if not user.is_authenticated and not self_review %}
+  <h2>
+    Оставлять отзывы могут только авторизованные пользователи
+  </h2>
+  {% endif %}
+{% endblock %}
