@@ -7,6 +7,7 @@
       <div class="film__image">
         <img src="{{ film.image.url }}" alt="" />
       </div>
+      {% if film.trailer %}
       <div class="film__trailer">
         <video
           id="my-video"
@@ -25,6 +26,7 @@
           Трейлер
         </h4>
       </div>
+      {% endif %}
     </div>
     <div class="film__center">
       <h1 class="film__title">
